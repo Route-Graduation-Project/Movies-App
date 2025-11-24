@@ -14,19 +14,21 @@ abstract class AppTheme {
       surface: AppColors.black,
       onSurface: AppColors.white,
     ),
+
+
     textTheme: const TextTheme(
-      headlineLarge: TextStyle(
-          fontSize: 32,
-          color: AppColors.black
-      ),
-      headlineMedium: TextStyle(
-          fontSize: 28,
-          color: AppColors.black
-      ),
-      headlineSmall: TextStyle(
-          fontSize: 24,
-          color: AppColors.black
-      ),
+      // headlineLarge: TextStyle(
+      //     fontSize: 32,
+      //     color: AppColors.black
+      // ),
+      // headlineMedium: TextStyle(
+      //     fontSize: 28,
+      //     color: AppColors.black
+      // ),
+      // headlineSmall: TextStyle(
+      //     fontSize: 24,
+      //     color: AppColors.black
+      // ),
       titleLarge: TextStyle(
           fontSize: 22,
           color: AppColors.black
@@ -53,15 +55,72 @@ abstract class AppTheme {
       ),
       bodyLarge: TextStyle(
           fontSize: 16,
-          color: AppColors.black
+          color: AppColors.yellow
       ),
       bodyMedium: TextStyle(
           fontSize: 14,
-          color: AppColors.black
+          color: AppColors.yellow
       ),
       bodySmall: TextStyle(
           fontSize: 12,
-          color: AppColors.black
+          color: AppColors.yellow
+      ),
+    ),
+
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.black,
+      foregroundColor: AppColors.yellow,
+      elevation: 0,
+      surfaceTintColor: Colors.transparent,
+    ),
+
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius:BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.all(16),
+      )
+    ),
+
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        textStyle: TextStyle(
+          fontSize: 18,
+        ),
+        foregroundColor: AppColors.white,
+        overlayColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
+      )
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      iconColor: AppColors.white,
+      prefixIconColor: AppColors.white,
+      suffixIconColor: AppColors.white,
+      hintStyle: TextStyle(
+        fontSize: 18 ,
+        color: AppColors.white,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: AppColors.gray),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: AppColors.gray),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: AppColors.gray),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.red),
       ),
     ),
   );
