@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/routing/routes.dart';
+import 'package:movies_app/ui/update/update_screen.dart';
+
+import '../../ui/home/home_screen.dart';
+import '../app_colors.dart';
 
 abstract class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
@@ -11,11 +16,26 @@ abstract class AppRoutes {
       //   settings: settings,
       //   builder: (_) => const ExampleView(),
       // );
+      case Routes.homeRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const HomeScreen(),
+        );
+      case Routes.updateRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const UpdateScreen(),
+        );
       default:
         return MaterialPageRoute(
           builder:
               (_) => const Scaffold(
-                body: Center(child: Text("404 - Page Not Found")),
+                body: Center(
+                  child: Text(
+                    "404 - Page Not Found",
+                    style: TextStyle(color: AppColors.red),
+                  ),
+                ),
               ),
         );
     }
