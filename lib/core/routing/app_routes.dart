@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/routing/routes.dart';
-import 'package:movies_app/ui/update/update_screen.dart';
-
-import '../../ui/home/home_screen.dart';
+import 'package:movies_app/presentation/ui/home/home_screen.dart';
+import 'package:movies_app/presentation/ui/update/update_screen.dart';
 import '../app_colors.dart';
 
 abstract class AppRoutes {

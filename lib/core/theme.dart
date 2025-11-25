@@ -85,8 +85,8 @@ abstract class AppTheme {
 
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        textStyle: TextStyle(
-          fontSize: 18,
+        textStyle: const TextStyle(
+          fontSize: 16,
         ),
         foregroundColor: AppColors.white,
         overlayColor: Colors.transparent,
@@ -99,12 +99,12 @@ abstract class AppTheme {
       prefixIconColor: AppColors.white,
       suffixIconColor: AppColors.white,
       hintStyle: TextStyle(
-        fontSize: 18 ,
+        fontSize: 16 ,
         color: AppColors.white,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: AppColors.gray),
+        borderSide: const BorderSide(color: AppColors.gray),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
