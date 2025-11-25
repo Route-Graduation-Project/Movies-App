@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/routing/routes.dart';
-import 'package:movies_app/ui/update/update_screen.dart';
+import 'package:movies_app/features/auth/presentation/views/login_view.dart';
+import 'package:movies_app/features/auth/presentation/views/register/register_view.dart';
+import 'package:movies_app/features/update/update_screen.dart';
 
-import '../../ui/home/home_screen.dart';
+import '../../features/home/home_screen.dart';
 import '../app_colors.dart';
 
 abstract class AppRoutes {
@@ -25,6 +27,16 @@ abstract class AppRoutes {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => const UpdateScreen(),
+        );
+      case Routes.registerRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const RegisterView(),
+        );
+      case Routes.loginRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const LoginView(),
         );
       default:
         return MaterialPageRoute(
