@@ -58,7 +58,7 @@ abstract class AppTheme {
 
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        textStyle: const TextStyle(fontSize: 18),
+        textStyle: const TextStyle(fontSize: 16),
         foregroundColor: AppColors.white,
         overlayColor: Colors.transparent,
         splashFactory: NoSplash.splashFactory,
@@ -69,7 +69,7 @@ abstract class AppTheme {
       iconColor: AppColors.white,
       prefixIconColor: AppColors.white,
       suffixIconColor: AppColors.white,
-      hintStyle: const TextStyle(fontSize: 18, color: AppColors.white),
+      hintStyle: const TextStyle(fontSize: 16, color: AppColors.white),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(color: AppColors.gray),
