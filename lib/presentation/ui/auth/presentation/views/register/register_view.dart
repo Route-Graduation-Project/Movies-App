@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/utilis/theme_extension.dart';
 import 'package:movies_app/core/utilis/white_space_extension.dart';
-import 'package:movies_app/features/auth/presentation/views/register/widgets/custom_text_form_field.dart';
+import 'package:movies_app/presentation/ui/auth/presentation/views/register/widgets/custom_text_form_field.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});

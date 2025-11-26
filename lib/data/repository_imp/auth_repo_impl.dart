@@ -1,5 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:movies_app/data/mappers/register_entity_mapper.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
@@ -14,8 +13,8 @@ class ApiAuthRepoImpl implements AuthRepository {
 
   @override
   Future<LoginResponse> loginWithEmailAndPassword(
-      LoginRequest loginRequest,) async
-  {
+    LoginRequest loginRequest,
+  ) async {
     try {
       var connected = await _isConnected();
       if (connected) {
@@ -25,9 +24,8 @@ class ApiAuthRepoImpl implements AuthRepository {
         );
         await _saveToken(response.token);
         return response;
-      }
-      else {
-        throw("There is no connection. Check your connection and try again");
+      } else {
+        throw ("There is no connection. Check your connection and try again");
       }
     } catch (e) {
       rethrow;
@@ -42,27 +40,24 @@ class ApiAuthRepoImpl implements AuthRepository {
     required String confirmPassword,
     required String phone,
     required int avatarId,
-}) async
-  {
+  }) async {
     try {
       var connected = await _isConnected();
       if (connected) {
         var response = await apiRemoteDataSource.register(
-            name: name,
-            email: email,
-            password: password,
-            confirmPassword: confirmPassword,
-            phone: phone,
-            avatarId: avatarId);
+          name: name,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+          phone: phone,
+          avatarId: avatarId,
+        );
 
         return response;
+      } else {
+        throw ("There is no connection. Check the connection and try again");
       }
-      else
-        {
-          throw("There is no connection. Check the connection and try again");
-        }
-    }
-    catch (e) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -70,7 +65,7 @@ class ApiAuthRepoImpl implements AuthRepository {
   // check connection of internet
   Future<bool> _isConnected() async {
     final List<ConnectivityResult> connectivityResult =
-    await (Connectivity().checkConnectivity());
+        await (Connectivity().checkConnectivity());
     return (connectivityResult.contains(ConnectivityResult.ethernet) ||
         connectivityResult.contains(ConnectivityResult.wifi) ||
         connectivityResult.contains(ConnectivityResult.mobile));
