@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/utilis/theme_extension.dart';
-import 'package:movies_app/presentation/auth/widgets/register_view_body.dart';
+import 'package:movies_app/presentation/auth/register/register_view_body.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
