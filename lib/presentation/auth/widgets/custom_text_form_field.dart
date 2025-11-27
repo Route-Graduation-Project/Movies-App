@@ -12,7 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   });
   final String hintText;
   final bool isPassword;
-  final String? prefix, suffix;
+  final IconData? prefix, suffix;
   final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,9 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.gray,
-
-        prefixIcon: ImageIcon(AssetImage(prefix!)),
+        prefixIcon: Icon(prefix),
         hintText: hintText,
-        suffixIcon: isPassword ? ImageIcon(AssetImage(suffix!)) : null,
+        suffixIcon: isPassword ? Icon(suffix) : null,
       ),
     );
   }

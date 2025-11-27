@@ -1,87 +1,89 @@
-class MyValidators {
-  static String? displayNameValidator(String? displayName) {
-    if (displayName == null || displayName.isEmpty) {
-      return 'Display name cannot be empty';
+class Validation {
+  static String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
     }
-    if (displayName.length < 3 || displayName.length > 20) {
-      return 'Display name must be between 3 and 20 characters';
-    }
-
-    return null;
-  }
-
-  static String? emailValidator(String? value) {
-    if (value!.isEmpty) {
-      return 'Please enter an email';
-    }
-    if (!RegExp(
-      r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
-    ).hasMatch(value)) {
-      return 'Please enter a valid email';
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Please enter a valid email address';
     }
     return null;
   }
 
-  static String? phoneValidator(String? value) {
-    if (value!.isEmpty) {
-      return 'Please enter an phone';
-    }
-    if (!value.startsWith('010')) {
-      return 'Phone number must start with 010';
-    }
-    if (value.isEmpty) {
-      return 'Phone number is required';
-    } else if (value.length != 11) {
-      return 'Phone number must be exactly 11 digits long';
+  static String? validatePasswordConfirmation({
+    required String? confirmationValue,
+    required String? originalPasswordValue,
+  }) {
+    if (confirmationValue == null || confirmationValue.isEmpty) {
+      return 'Please confirm your password';
     }
 
-    return null;
-  }
+    if (originalPasswordValue == null || originalPasswordValue.isEmpty) {
+      return 'Original password is required first';
+    }
 
-  static String? passwordValidator(String? value) {
-    if (value!.isEmpty) {
-      return 'Please enter a password';
-    }
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
-    }
-    return null;
-  }
-
-  static String? nationalIdValidator(String? value) {
-    if (value!.isEmpty) {
-      return 'Please enter a  nationalId';
-    }
-    if (value.length != 14) {
-      return 'nationalId must be at least 14 characters long';
-    }
-    return null;
-  }
-
-  static String? repeatPasswordValidator({String? value, String? password}) {
-    if (value != password) {
+    if (confirmationValue != originalPasswordValue) {
       return 'Passwords do not match';
     }
+
     return null;
   }
 
-  static String? genderValidator({String? value}) {
-    if (value!.isEmpty) {
-      return 'please enter gender';
+  static String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Name is required';
     }
-    return null;
-  }
 
-  static String? imageValidator(String? image) {
-    if (image == null || image.isEmpty) {
-      return 'Image cannot be empty';
+    if (value.length < 2) {
+      return 'Name must be at least 2 characters long';
     }
+
+    final nameRegex = RegExp(r"^[a-zA-Z\s'-]+$");
+    if (!nameRegex.hasMatch(value)) {
+      return 'Name can only contain letters, spaces, hyphens, or apostrophes';
+    }
+
     return null;
   }
 
-  static String? tokenValidator(String? val) {
-    if (val == null || val.isEmpty) {
-      return 'token cannot be empty';
+  static String? validateEgyptianPhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+
+    String cleanValue = value.replaceAll(RegExp(r'[^\d]'), '');
+
+    if (cleanValue.startsWith('0020')) {
+      cleanValue = cleanValue.substring(4);
+    } else if (cleanValue.startsWith('20')) {
+      cleanValue = cleanValue.substring(2);
+    }
+
+    final phoneRegex = RegExp(r'^01[0125]\d{8}$');
+
+    if (!phoneRegex.hasMatch(cleanValue)) {
+      return 'Please enter a valid Egyptian mobile number (e.g., 01xxxxxxxxx)';
+    }
+
+    if (cleanValue.length != 11) {
+      return 'Phone number must be exactly 11 digits';
+    }
+
+    return null;
+  }
+
+  static String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    if (!value.contains(RegExp(r'[0-9]'))) {
+      return 'Password must contain at least one number';
     }
     return null;
   }

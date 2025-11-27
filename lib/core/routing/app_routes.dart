@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/routing/routes.dart';
-import 'package:movies_app/presentation/ui/auth/presentation/views/login_view.dart';
-import 'package:movies_app/presentation/ui/auth/presentation/views/register/register_view.dart';
-import 'package:movies_app/presentation/ui/home/home_screen.dart';
-import 'package:movies_app/presentation/ui/update/update_screen.dart';
+import 'package:movies_app/presentation/auth/login_view.dart';
+import 'package:movies_app/presentation/auth/register/register_view.dart';
+import 'package:movies_app/presentation/home/home_screen.dart';
+import 'package:movies_app/presentation/update/update_screen.dart';
 import '../app_colors.dart';
 
 abstract class AppRoutes {
