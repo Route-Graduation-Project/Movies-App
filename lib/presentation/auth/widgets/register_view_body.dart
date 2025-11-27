@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:movies_app/core/utilis/white_space_extension.dart';
 import 'package:movies_app/presentation/auth/widgets/carousel_slider_item_builder.dart';
 import 'package:movies_app/presentation/auth/widgets/custom_text_form_field.dart';
 import 'package:movies_app/presentation/auth/widgets/language_toggle_switch.dart';
@@ -54,6 +55,7 @@ class RegisterViewBody extends StatelessWidget {
               ),
               const NavigateToLoginRow(),
               const LanguageToggleSwitch(),
+              24.heightSpace,
             ],
           ),
         ),

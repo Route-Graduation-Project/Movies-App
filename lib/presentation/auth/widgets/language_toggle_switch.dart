@@ -20,9 +20,9 @@ class LanguageToggleSwitch extends StatelessWidget {
         indicatorSize: const Size.fromWidth(40),
         padding: EdgeInsets.zero,
         borderWidth: 3,
-        iconList: const [
-          ImageIcon(AssetImage('assets/images/LR.png')),
-          ImageIcon(AssetImage('assets/images/EG.png')),
+        iconList: [
+          Image.asset('assets/images/EG.png'),
+          Image.asset('assets/images/LR.png'),
         ],
       ),
     );
