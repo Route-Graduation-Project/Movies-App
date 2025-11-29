@@ -4,7 +4,6 @@ import 'package:movies_app/data/mappers/register_entity_mapper.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/data/models/register_request.dart';
-import 'package:movies_app/data/models/register_response.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/api_remote_data.dart';
 
@@ -12,15 +11,13 @@ class ApiRemoteImpl implements ApiRemoteData {
   ApiClient apiClient = ApiClient(sharedDio());
 
   @override
-  Future<LoginResponse> loginWithEmailAndPassword(String email,
-      String password,) async
-  {
+  Future<LoginResponse> loginWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
       var response = await apiClient.loginWithEmailAndPassword(
-        LoginRequest(
-          email: email,
-          password: password,
-        ),
+        LoginRequest(email: email, password: password),
       );
       return response;
     } catch (e) {
@@ -36,19 +33,21 @@ class ApiRemoteImpl implements ApiRemoteData {
     required String confirmPassword,
     required String phone,
     required int avatarId,
-  }) async
-  {
-    try{
+  }) async {
+    try {
       var response = await apiClient.register(
-          RegisterRequest(name: name,
-              email: email,
-              password: password,
-              confirmPassword: confirmPassword,
-              phone: phone,
-              avatarId: avatarId));
+        RegisterRequest(
+          name: name,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+          phone: phone,
+          avatarId: avatarId,
+        ),
+      );
+
       return RegisterEntityMapper().converterToRegisterEntity(response);
-    }
-    catch(e){
+    } catch (e) {
       rethrow;
     }
   }

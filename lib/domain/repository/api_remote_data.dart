@@ -3,12 +3,11 @@ import 'package:movies_app/data/models/login_responce.dart';
 import '../entity/register_response_entity.dart';
 
 // all func that in API
-abstract interface class ApiRemoteData{
-
+abstract interface class ApiRemoteData {
   Future<LoginResponse> loginWithEmailAndPassword(
-      String email,
-      String password,
-      );
+    String email,
+    String password,
+  );
 
   Future<RegisterResponseEntity> register({
     required String name,

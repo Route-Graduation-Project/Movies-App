@@ -4,4 +4,6 @@ abstract class Routes {
   //static const String exampleViewRoute = "/routeName";
   static const String homeRoute = "/home";
   static const String updateRoute = "/update";
+  static const String registerRoute = "/register";
+  static const String loginRoute = "/login";
 }

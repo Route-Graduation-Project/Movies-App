@@ -1,13 +1,12 @@
 class RegisterResponse {
-  RegisterResponse({
-      this.message, 
-      this.data,});
+  RegisterResponse({this.message, this.data});
 
   RegisterResponse.fromJson(dynamic json) {
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
-  String? message;
+
+  dynamic message;
   Data? data;
 
   Map<String, dynamic> toJson() {
@@ -18,20 +17,20 @@ class RegisterResponse {
     }
     return map;
   }
-
 }
 
 class Data {
   Data({
-      this.email, 
-      this.password, 
-      this.name, 
-      this.phone, 
-      this.avaterId, 
-      this.id, 
-      this.createdAt, 
-      this.updatedAt, 
-      this.v,});
+    this.email,
+    this.password,
+    this.name,
+    this.phone,
+    this.avaterId,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
 
   Data.fromJson(dynamic json) {
     email = json['email'];
@@ -67,5 +66,4 @@ class Data {
     map['__v'] = v;
     return map;
   }
-
 }
