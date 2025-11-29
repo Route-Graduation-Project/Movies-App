@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/core/utilis/theme_extension.dart';
 
 class NavigateToLoginRow extends StatelessWidget {
-  const NavigateToLoginRow({super.key});
-
+  const NavigateToLoginRow({super.key, this.onTap});
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        //TODO implement navigate to login
-      },
+      onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

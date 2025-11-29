@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/presentation/auth/widgets/carousel_slider_items_list.dart';
 
 class CarouselSliderItemBuilder extends StatelessWidget {
-  const CarouselSliderItemBuilder({super.key});
-
+  const CarouselSliderItemBuilder({super.key, this.onPageChanged});
+  final dynamic Function(int, CarouselPageChangedReason)? onPageChanged;
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
@@ -13,6 +13,7 @@ class CarouselSliderItemBuilder extends StatelessWidget {
         enableInfiniteScroll: true,
         enlargeFactor: .5,
         enlargeCenterPage: true,
+        onPageChanged: onPageChanged,
         viewportFraction: 0.5,
       ),
     );

@@ -11,7 +11,7 @@ class RegisterView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Register', style: context.textStyle.bodyLarge),
       ),
-      body: const RegisterViewBody(),
+      body: const SafeArea(child: RegisterViewBody()),
     );
   }
 }

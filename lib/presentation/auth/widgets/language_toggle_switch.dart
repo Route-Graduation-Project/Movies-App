@@ -17,9 +17,7 @@ class LanguageToggleSwitch extends StatelessWidget {
           borderColor: Theme.of(context).colorScheme.primary,
           indicatorColor: Theme.of(context).colorScheme.primary,
         ),
-        indicatorSize: const Size.fromWidth(40),
         padding: EdgeInsets.zero,
-        borderWidth: 3,
         iconList: [
           Image.asset('assets/images/EG.png'),
           Image.asset('assets/images/LR.png'),

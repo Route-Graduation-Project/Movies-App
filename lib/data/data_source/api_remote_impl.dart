@@ -45,6 +45,7 @@ class ApiRemoteImpl implements ApiRemoteData {
           avatarId: avatarId,
         ),
       );
+
       return RegisterEntityMapper().converterToRegisterEntity(response);
     } catch (e) {
       rethrow;

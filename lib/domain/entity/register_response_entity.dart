@@ -1,8 +1,9 @@
-class RegisterResponseEntity{
+class RegisterResponseEntity {
   String? id;
   String? name;
   String? email;
   String? phone;
+  String? message;
   num? avatarId;
   RegisterResponseEntity({
     required this.id,
@@ -10,5 +11,6 @@ class RegisterResponseEntity{
     required this.email,
     required this.phone,
     required this.avatarId,
-});
+    required this.message,
+  });
 }
