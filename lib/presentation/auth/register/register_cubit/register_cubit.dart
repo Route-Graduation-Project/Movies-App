@@ -57,7 +57,7 @@ class RegisterCubit
 
       emit(RegisterResponseState(results));
     } catch (e) {
-      emit(RegisterFailure("Something went wrong"));
+      emit(RegisterFailure(e.toString()));
     }
   }
 
