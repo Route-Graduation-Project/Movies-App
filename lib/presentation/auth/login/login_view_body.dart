@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_colors.dart';
-import 'package:movies_app/core/utilis/context_extension.dart';
 import 'package:movies_app/core/utilis/theme_extension.dart';
 import 'package:movies_app/presentation/auth/login/login_cubit/login_cubit.dart';
 import 'package:movies_app/presentation/auth/login/login_cubit/login_state.dart';
@@ -140,7 +139,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         ),
                       ),
                       child: isLoading
-                          ? CircularProgressIndicator(
+                          ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       )
                           : Text(
@@ -161,8 +160,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   SizedBox(height: size.height * 0.03),
 
                   // OR Divider
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Expanded(child: Divider(color: AppColors.yellow)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -184,9 +183,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         ),
                       ),
                       onPressed: () {},
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.g_mobiledata, color: AppColors.black, size: 34),
                           SizedBox(width: 10),
                           Text(
