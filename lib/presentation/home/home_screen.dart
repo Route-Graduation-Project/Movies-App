@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../core/routing/routes.dart';
+import 'package:movies_app/core/routing/routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,9 +9,13 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Align(
         alignment: Alignment.center,
-          child: FilledButton(onPressed: () {
+        child: FilledButton(
+          onPressed: () {
             Navigator.pushNamed(context, Routes.updateRoute);
-          }, child: const Text("Update Profile"))),
+          },
+          child: const Text("Update Profile"),
+        ),
+      ),
     );
   }
 }
