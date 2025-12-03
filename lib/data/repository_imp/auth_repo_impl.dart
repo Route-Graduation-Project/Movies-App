@@ -1,4 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
@@ -74,5 +76,30 @@ class ApiAuthRepoImpl implements AuthRepository {
   Future<void> _saveToken(String token) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("token", token);
+  }
+
+  @override
+  Future<User?> firebaseSignInWithGoogle() async {
+    final GoogleSignIn signIn = GoogleSignIn.instance;
+    signIn.initialize(
+      serverClientId:
+          "923035564460-e7co4htua81t9qgr7ot0jl61pdh5evts.apps.googleusercontent.com",
+    );
+
+    final GoogleSignInAccount googleUser =
+        await GoogleSignIn.instance.authenticate();
+
+    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
+
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(
+      credential,
+    );
+
+    final firebaseUser = userCredential.user;
+    return firebaseUser;
   }
 }
