@@ -27,7 +27,7 @@ abstract class AppRoutes {
       case Routes.updateRoute:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const UpdateScreen(),
+          builder: (_) => UpdateScreen(),
         );
       case Routes.registerRoute:
         return MaterialPageRoute(

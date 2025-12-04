@@ -20,7 +20,7 @@ class MoviesApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRoutes.generateRoute,
-      initialRoute: Routes.loginRoute,
+      initialRoute: Routes.updateRoute,
     );
   }
 }
