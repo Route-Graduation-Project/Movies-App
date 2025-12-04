@@ -38,18 +38,24 @@ class _LoginViewBodyState extends State<LoginViewBody> {
     }
   }
 
+  Future<void> _googleLogin() async {
+    await context.read<LoginCubit>().doAction(LoginWithGoogle());
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
         } else if (state is LoginSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login Successful: ${state.response.message}')),
+            SnackBar(
+              content: Text('Login Successful: ${state.response.message}'),
+            ),
           );
         }
       },
@@ -59,6 +65,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           final cubit = context.read<LoginCubit>();
           final isPasswordVisible = cubit.isPasswordVisible;
           final isLoading = state is LoginLoading;
+          final isLoadingGoogle = state is LoginGoogleLoading;
 
           return SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
@@ -67,9 +74,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               child: Column(
                 children: [
                   SizedBox(height: size.height * 0.08),
-                 Image.asset("assets/images/img.png"),
+                  Image.asset("assets/images/img.png"),
                   SizedBox(height: size.height * 0.04),
-
 
                   CustomTextFormField(
                     hintText: 'Email Address',
@@ -77,7 +83,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
                     validator: (value) {
-                      if (value == null || value.isEmpty || !value.contains('@')) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !value.contains('@')) {
                         return 'Please enter a valid email';
                       }
                       return null;
@@ -100,23 +108,33 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     enabled: !isLoading,
                     suffix: IconButton(
                       icon: Icon(
-                        isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                        isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         color: context.colors.onSurface,
                       ),
-                      onPressed: isLoading ? null : () => cubit.doAction(PasswordVisibilityAction()),
+                      onPressed:
+                          isLoading
+                              ? null
+                              : () =>
+                                  cubit.doAction(PasswordVisibilityAction()),
                     ),
                   ),
 
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: isLoading
-                          ? null
-                          : () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Forgot password feature coming soon!'),
-                        ),
-                      ),
+                      onPressed:
+                          isLoading
+                              ? null
+                              : () =>
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Forgot password feature coming soon!',
+                                      ),
+                                    ),
+                                  ),
                       child: Text(
                         'Forgot Password?',
                         style: context.textStyle.bodySmall!.copyWith(
@@ -138,17 +156,20 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: isLoading
-                          ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
-                          : Text(
-                        'LOGIN',
-                        style: context.textStyle.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: context.colors.surface,
-                        ),
-                      ),
+                      child:
+                          isLoading
+                              ? const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              )
+                              : Text(
+                                'LOGIN',
+                                style: context.textStyle.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: context.colors.surface,
+                                ),
+                              ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.02),
@@ -165,7 +186,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       Expanded(child: Divider(color: AppColors.yellow)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("OR", style: TextStyle(color: AppColors.yellow)),
+                        child: Text(
+                          "OR",
+                          style: TextStyle(color: AppColors.yellow),
+                        ),
                       ),
                       Expanded(child: Divider(color: AppColors.yellow)),
                     ],
@@ -182,22 +206,34 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () {},
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.g_mobiledata, color: AppColors.black, size: 34),
-                          SizedBox(width: 10),
-                          Text(
-                            "Login With Google",
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                      onPressed: isLoadingGoogle ? null : _googleLogin,
+
+                      child:
+                          isLoadingGoogle
+                              ? const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              )
+                              : const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.g_mobiledata,
+                                    color: AppColors.black,
+                                    size: 34,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "Login With Google",
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.03),

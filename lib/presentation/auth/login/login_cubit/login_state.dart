@@ -1,10 +1,13 @@
 import 'package:movies_app/domain/entity/login_respone_entity.dart';
+import 'package:movies_app/domain/entity/register_response_entity.dart';
 
 sealed class LoginState {}
 
 final class LoginInitial extends LoginState {}
 
 final class LoginLoading extends LoginState {}
+
+final class LoginGoogleLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
   final LoginResponseEntity response;
@@ -33,8 +36,15 @@ final class LoginUserAction extends LoginActions {
   LoginUserAction({required this.email, required this.password});
 }
 
+final class LoginWithGoogle extends LoginActions {}
+
 sealed class LoginNavigationAction extends LoginState {}
 
 final class LoginNavigationToRegister extends LoginNavigationAction {}
 
 final class LoginNavigationToHome extends LoginNavigationAction {}
+
+final class LoginGoogleNavigationToHome extends LoginNavigationAction {
+  final RegisterResponseEntity user;
+  LoginGoogleNavigationToHome(this.user);
+}
