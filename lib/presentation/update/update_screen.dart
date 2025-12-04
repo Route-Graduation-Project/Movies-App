@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/core/app_colors.dart';
 import 'package:movies_app/core/utilis/context_extension.dart';
 import 'package:movies_app/core/utilis/white_space_extension.dart';
-import 'package:movies_app/presentation/auth/widgets/avatar_container.dart';
 import 'package:movies_app/presentation/auth/widgets/avatar_images_paths.dart';
 
-class UpdateScreen extends StatefulWidget {
+import '../../core/routing/routes.dart';
 
-  UpdateScreen({super.key});
+class UpdateScreen extends StatefulWidget {
+  const UpdateScreen({super.key});
 
   @override
   State<UpdateScreen> createState() => _UpdateScreenState();
@@ -34,8 +34,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 padding: const EdgeInsets.all(16),
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      selectPicture(context);
+                    onTap: () async {
+                      final selectedAvatar = await Navigator.pushNamed(context, Routes.selectPictureRoute, arguments: selectedAvatarId) as int;
+                      setState(() {
+                        selectedAvatarId = selectedAvatar;
+                      });
                     },
                     child: Image.asset(
                       height: context.heightSize * 0.15,
@@ -106,70 +109,5 @@ class _UpdateScreenState extends State<UpdateScreen> {
         ),
       ),
     );
-  }
-
-  selectPicture(context) {
-    var width = MediaQuery.sizeOf(context).width;
-    showDialog(
-      context: context,
-      builder:
-          (context) => Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Container(
-                width: width * 0.95,
-                height: width * 0.95,
-                decoration: BoxDecoration(
-                  color: AppColors.gray,
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  spacing: 16,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        spacing: 16,
-                        children: [
-                          AvatarContainer(avatarId: 0, selectedAvatarId: selectedAvatarId, select: select,),
-                          AvatarContainer(avatarId: 3, selectedAvatarId: selectedAvatarId, select: select,),
-                          AvatarContainer(avatarId: 6, selectedAvatarId: selectedAvatarId, select: select,),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        spacing: 16,
-                        children: [
-                          AvatarContainer(avatarId: 1, selectedAvatarId: selectedAvatarId, select: select,),
-                          AvatarContainer(avatarId: 4, selectedAvatarId: selectedAvatarId, select: select,),
-                          AvatarContainer(avatarId: 7, selectedAvatarId: selectedAvatarId, select: select,),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        spacing: 16,
-                        children: [
-                          AvatarContainer(avatarId: 2, selectedAvatarId: selectedAvatarId, select: select,),
-                          AvatarContainer(avatarId: 5, selectedAvatarId: selectedAvatarId, select: select,),
-                          AvatarContainer(avatarId: 8, selectedAvatarId: selectedAvatarId, select: select,),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-    );
-  }
-
-  void select(id){
-    selectedAvatarId = id;
-    Navigator.of(context).pop();
-    selectPicture(context);
-    setState(() {});
   }
 }
