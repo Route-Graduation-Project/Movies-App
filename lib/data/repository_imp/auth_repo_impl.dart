@@ -1,17 +1,18 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/api_remote_data.dart';
 import 'package:movies_app/domain/repository/auth_repository.dart';
+import 'package:movies_app/domain/repository/firebase_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiAuthRepoImpl implements AuthRepository {
   ApiRemoteData apiRemoteDataSource;
+  FirebaseDataSource firebaseDataSource;
 
-  ApiAuthRepoImpl(this.apiRemoteDataSource);
+  ApiAuthRepoImpl(this.apiRemoteDataSource, this.firebaseDataSource);
 
   @override
   Future<LoginResponse> loginWithEmailAndPassword(
@@ -80,26 +81,14 @@ class ApiAuthRepoImpl implements AuthRepository {
 
   @override
   Future<User?> firebaseSignInWithGoogle() async {
-    final GoogleSignIn signIn = GoogleSignIn.instance;
-    signIn.initialize(
-      serverClientId:
-          "923035564460-e7co4htua81t9qgr7ot0jl61pdh5evts.apps.googleusercontent.com",
-    );
+    try {
+      var response = await firebaseDataSource.firebaseSignInWithGoogle();
+      final token = await response?.getIdToken();
+      await _saveToken(token ?? '');
 
-    final GoogleSignInAccount googleUser =
-        await GoogleSignIn.instance.authenticate();
-
-    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-    );
-
-    final userCredential = await FirebaseAuth.instance.signInWithCredential(
-      credential,
-    );
-
-    final firebaseUser = userCredential.user;
-    return firebaseUser;
+      return response;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

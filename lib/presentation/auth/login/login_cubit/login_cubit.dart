@@ -1,20 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movies_app/core/base/base_cubit.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/domain/entity/login_respone_entity.dart';
 import 'package:movies_app/data/mappers/login_entity_mapper.dart';
+import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/auth_repository.dart';
 import 'package:movies_app/presentation/auth/login/login_cubit/login_state.dart';
 
 class LoginCubit
     extends BaseCubit<LoginState, LoginActions, LoginNavigationAction> {
   LoginCubit(this.authRepository) : super(LoginInitial());
+  final user = FirebaseAuth.instance.currentUser;
 
   final AuthRepository authRepository;
 
   bool isPasswordVisible = true;
   LoginResponse? loginResponse;
-
 
   @override
   Future<void> doAction(LoginActions action) async {
@@ -30,6 +32,36 @@ class LoginCubit
       case PasswordVisibilityAction():
         _passwordVisibility();
         break;
+      case LoginWithGoogle():
+        _loginUserGoogle();
+    }
+  }
+
+  Future<void> _loginUserGoogle() async {
+    emit(LoginGoogleLoading());
+
+    try {
+      final user = await authRepository.firebaseSignInWithGoogle();
+
+      if (user == null) {
+        emit(LoginFailure('Google sign-in cancelled'));
+        return;
+      }
+
+      emitNavigation(
+        LoginGoogleNavigationToHome(
+          RegisterResponseEntity(
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            phone: user.phoneNumber ?? '',
+            avatarId: null,
+            message: '',
+          ),
+        ),
+      );
+    } catch (e) {
+      emit(LoginFailure(e.toString()));
     }
   }
 
@@ -37,14 +69,10 @@ class LoginCubit
     emit(LoginLoading());
 
     try {
-      final LoginResponse response =
-      await authRepository.loginWithEmailAndPassword(
-        LoginRequest(
-          email: action.email,
-          password: action.password,
-        ),
-      );
-
+      final LoginResponse response = await authRepository
+          .loginWithEmailAndPassword(
+            LoginRequest(email: action.email, password: action.password),
+          );
 
       if (response.token.isEmpty) {
         emit(LoginFailure(response.message));
@@ -54,13 +82,14 @@ class LoginCubit
       loginResponse = response;
 
       final LoginResponseEntity entity =
-      LoginEntityMapper.converterToLoginEntity(response);
+          LoginEntityMapper.converterToLoginEntity(response);
       emit(LoginSuccess(entity));
 
       emitNavigation(LoginNavigationToHome());
     } catch (e) {
-      emit(LoginFailure(
-          'Login failed. Please check your credentials. Error: $e'));
+      emit(
+        LoginFailure('Login failed. Please check your credentials. Error: $e'),
+      );
     }
   }
 

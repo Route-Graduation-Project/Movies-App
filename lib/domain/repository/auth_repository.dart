@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import '../../data/models/login_responce.dart';
 import '../entity/register_response_entity.dart';
@@ -14,5 +15,5 @@ abstract interface class AuthRepository {
     required int avatarId,
   });
 
-  Future<void> firebaseSignInWithGoogle();
+  Future<User?> firebaseSignInWithGoogle();
 }
