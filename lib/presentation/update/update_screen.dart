@@ -17,11 +17,16 @@ class UpdateScreen extends StatefulWidget {
 
 class _UpdateScreenState extends State<UpdateScreen> {
   late Future<ProfileResponse> profileFuture;
+  ProfileResponse? profileInfo;
+  int? selectedAvatarId;
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
-    profileFuture = ApiManager().getProfile(); // Initialize ONE time
+    profileFuture = ApiManager().getProfile();
   }
 
   @override
@@ -42,8 +47,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
           } else if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else if (snapshot.hasData) {
-            var profileInfo = snapshot.data;
-            int selectedAvatarId = profileInfo?.data?.avaterId?.toInt() ?? 0;
+            profileInfo = snapshot.data;
+            selectedAvatarId ??= profileInfo?.data?.avaterId?.toInt();
             return SafeArea(
               child: Column(
                 children: [
@@ -66,11 +71,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           },
                           child: Image.asset(
                             height: context.heightSize * 0.15,
-                            avatars[selectedAvatarId],
+                            avatars[selectedAvatarId!],
                           ),
                         ),
                         20.heightSpace,
                         TextFormField(
+                          controller: name,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: AppColors.gray,
@@ -80,6 +86,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         ),
                         20.heightSpace,
                         TextFormField(
+                          controller: phone,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: AppColors.gray,
@@ -123,7 +130,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final newName = name.text.isNotEmpty ? name.text : profileInfo?.data?.name;
+                          final newPhone = phone.text.isNotEmpty ? phone.text : profileInfo?.data?.phone;
+                          final newAvatarId = selectedAvatarId ?? profileInfo?.data?.avaterId?.toInt();
+
+                          ApiManager().updateProfile(
+                            name: newName,
+                            phone: newPhone,
+                            avatarId: newAvatarId,
+                          );
+                        },
                         child: const Text(
                           "Update Data",
                           style: TextStyle(fontSize: 16),

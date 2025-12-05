@@ -28,5 +28,28 @@ class ApiManager{
 
     return profileResponse;
   }
+
+  updateProfile({String? name, String? phone, int? avatarId}) async {
+    await getToken();
+    Dio dio = Dio();
+    final body = {
+      if (name != null) 'name': name,
+      if (phone != null) 'phone': phone,
+      if (avatarId != null) 'avaterId': avatarId,
+    };
+    var response = await dio.patch(
+      url,
+      data: body,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+
+    print(response.statusCode);
+    print(response.statusMessage);
+    print(response.data);
+  }
 }
 

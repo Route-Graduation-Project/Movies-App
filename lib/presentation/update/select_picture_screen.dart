@@ -11,12 +11,12 @@ class SelectPictureScreen extends StatefulWidget {
 }
 
 class _SelectPictureScreenState extends State<SelectPictureScreen> {
-  late var selectedAvatarId = 0;
+  int? selectedAvatarId;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    selectedAvatarId = (ModalRoute.of(context)!.settings.arguments as int?) ?? 0;
+    selectedAvatarId ??= (ModalRoute.of(context)?.settings.arguments as int?) ?? 0;
   }
 
   @override
@@ -57,17 +57,17 @@ class _SelectPictureScreenState extends State<SelectPictureScreen> {
                         children: [
                           AvatarContainer(
                             avatarId: 0,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                           AvatarContainer(
                             avatarId: 3,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                           AvatarContainer(
                             avatarId: 6,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                         ],
@@ -79,17 +79,17 @@ class _SelectPictureScreenState extends State<SelectPictureScreen> {
                         children: [
                           AvatarContainer(
                             avatarId: 1,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                           AvatarContainer(
                             avatarId: 4,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                           AvatarContainer(
                             avatarId: 7,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                         ],
@@ -101,17 +101,17 @@ class _SelectPictureScreenState extends State<SelectPictureScreen> {
                         children: [
                           AvatarContainer(
                             avatarId: 2,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                           AvatarContainer(
                             avatarId: 5,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                           AvatarContainer(
                             avatarId: 8,
-                            selectedAvatarId: selectedAvatarId,
+                            selectedAvatarId: selectedAvatarId!,
                             select: select,
                           ),
                         ],
