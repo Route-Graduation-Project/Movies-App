@@ -19,7 +19,7 @@ class _LoginViewListener extends StatelessWidget {
 
   void _navigate(BuildContext context, LoginNavigationAction action) {
     if (action is LoginNavigationToRegister) {
-      Navigator.of(context).pushReplacementNamed(Routes.registerRoute);
+      Navigator.of(context).pushNamed(Routes.registerRoute);
     } else if (action is LoginNavigationToHome) {
       Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
     }

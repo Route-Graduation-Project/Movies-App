@@ -157,13 +157,13 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                       ),
                   keyboardType: TextInputType.visiblePassword,
                   prefix: EvaIcons.lock,
-                  isPassword: cubit.isPassword,
+                  isPassword: cubit.isRePassword,
                   suffix: IconButton(
                     onPressed: () {
-                      cubit.doAction(PasswordVisibility());
+                      cubit.doAction(RePasswordVisibility());
                     },
                     icon: Icon(
-                      cubit.isPassword ? EvaIcons.eye_off : EvaIcons.eye,
+                      cubit.isRePassword ? EvaIcons.eye_off : EvaIcons.eye,
                     ),
                   ),
                 ),

@@ -20,6 +20,7 @@ class RegisterCubit
   RegisterResponseEntity? registerResponse;
   int currentIndex = 0;
   bool isPassword = true;
+  bool isRePassword = true;
   @override
   Future<void> doAction(RegisterActions action) async {
     switch (action) {
@@ -37,6 +38,8 @@ class RegisterCubit
       case PasswordVisibility():
         _passwordVisibility();
         break;
+      case RePasswordVisibility():
+        _rePasswordVisibility();
     }
   }
 
@@ -71,6 +74,11 @@ class RegisterCubit
   void _passwordVisibility() {
     isPassword = !isPassword;
     emit(UpdatePassword(isPassword));
+  }
+
+  void _rePasswordVisibility() {
+    isRePassword = !isRePassword;
+    emit(UpdateRePassword(isRePassword));
   }
 
   void _getAvatarId(SaveAvatarId action) {
