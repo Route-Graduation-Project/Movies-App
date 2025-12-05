@@ -38,9 +38,33 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
     super.initState();
   }
 
+  void _register() {
+    if (_formKey.currentState!.validate()) {
+      final fullPhone = "+20${phone.text.trim()}";
+
+      cubit.doAction(
+        RegisterUser(
+          RegisterRequest(
+            avatarId: cubit.currentIndex,
+            name: name.text,
+            email: email.text,
+            password: password.text,
+            confirmPassword: confirmPassword.text,
+            phone: fullPhone,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     nav.cancel();
+    name.dispose();
+    email.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+    phone.dispose();
     super.dispose();
   }
 
@@ -133,13 +157,13 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                       ),
                   keyboardType: TextInputType.visiblePassword,
                   prefix: EvaIcons.lock,
-                  isPassword: cubit.isPassword,
+                  isPassword: cubit.isRePassword,
                   suffix: IconButton(
                     onPressed: () {
-                      cubit.doAction(PasswordVisibility());
+                      cubit.doAction(RePasswordVisibility());
                     },
                     icon: Icon(
-                      cubit.isPassword ? EvaIcons.eye_off : EvaIcons.eye,
+                      cubit.isRePassword ? EvaIcons.eye_off : EvaIcons.eye,
                     ),
                   ),
                 ),
@@ -161,22 +185,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        final fullPhone = "+20${phone.text.trim()}";
-
-                        cubit.doAction(
-                          RegisterUser(
-                            RegisterRequest(
-                              avatarId: cubit.currentIndex,
-                              name: name.text,
-                              email: email.text,
-                              password: password.text,
-                              confirmPassword: confirmPassword.text,
-                              phone: fullPhone,
-                            ),
-                          ),
-                        );
-                      }
+                      _register();
                     },
                     child:
                         state is RegisterLoading
@@ -218,6 +227,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                 backgroundColor: Colors.green,
               ),
             );
+            cubit.doAction(NavigateToLoginAction());
           }
         },
       ),

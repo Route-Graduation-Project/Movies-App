@@ -5,7 +5,10 @@ import 'package:movies_app/presentation/auth/login/login_view.dart';
 import 'package:movies_app/presentation/auth/register/register_cubit/register_cubit.dart';
 import 'package:movies_app/presentation/auth/register/register_view.dart';
 import 'package:movies_app/presentation/home/home_screen.dart';
+import 'package:movies_app/presentation/screens/splash_sceen.dart';
+import 'package:movies_app/presentation/update/select_picture_screen.dart';
 import 'package:movies_app/presentation/update/update_screen.dart';
+
 import '../app_colors.dart';
 
 abstract class AppRoutes {
@@ -19,6 +22,8 @@ abstract class AppRoutes {
       //   settings: settings,
       //   builder: (_) => const ExampleView(),
       // );
+      case Routes.splashRoute:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case Routes.homeRoute:
         return MaterialPageRoute(
           settings: settings,
@@ -42,6 +47,12 @@ abstract class AppRoutes {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => const LoginView(),
+        );
+      case Routes.selectPictureRoute:
+        return PageRouteBuilder(
+          opaque: false,
+          barrierColor: Colors.black54,
+          pageBuilder: (_, __, ___) => const SelectPictureScreen(),
         );
       default:
         return MaterialPageRoute(

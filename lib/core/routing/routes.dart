@@ -6,4 +6,6 @@ abstract class Routes {
   static const String updateRoute = "/update";
   static const String registerRoute = "/register";
   static const String loginRoute = "/login";
+  static const String selectPictureRoute = "/select_picture";
+  static const String splashRoute = '/splash';
 }

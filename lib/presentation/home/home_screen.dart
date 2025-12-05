@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, Routes.updateRoute);
           },
-          child: const Text("Update Profile"),
+          child: Text('update profile'),
         ),
       ),
     );

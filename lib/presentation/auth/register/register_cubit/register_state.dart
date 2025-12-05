@@ -17,6 +17,11 @@ final class UpdatePassword extends RegisterState {
   UpdatePassword(this.isPassword);
 }
 
+final class UpdateRePassword extends RegisterState {
+  final bool isRePassword;
+  UpdateRePassword(this.isRePassword);
+}
+
 final class UpdateAvatarId extends RegisterState {
   final int avatarIndex;
   UpdateAvatarId(this.avatarIndex);
@@ -32,6 +37,8 @@ sealed class RegisterActions {}
 final class NavigateToLoginAction extends RegisterActions {}
 
 final class PasswordVisibility extends RegisterActions {}
+
+final class RePasswordVisibility extends RegisterActions {}
 
 final class SaveAvatarId extends RegisterActions {
   final int avatarIndex;
