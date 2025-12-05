@@ -4,6 +4,7 @@ import 'package:movies_app/core/utilis/context_extension.dart';
 import 'package:movies_app/core/utilis/white_space_extension.dart';
 import 'package:movies_app/presentation/auth/widgets/avatar_images_paths.dart';
 import 'package:movies_app/update_data/api_manager.dart';
+import 'package:movies_app/update_data/message_response.dart';
 import 'package:movies_app/update_data/profile_response.dart';
 
 import '../../core/routing/routes.dart';
@@ -109,7 +110,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          MessageResponse response = await ApiManager().deleteProfile();
+                          Navigator.pushNamed(context, Routes.loginRoute);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                response.message ?? "Profile Deleted Successfully",
+                              ),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
                         style: FilledButton.styleFrom(
                           backgroundColor: AppColors.red,
                           foregroundColor: AppColors.white,
@@ -130,15 +142,24 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
-                        onPressed: () {
+                        onPressed: () async {
                           final newName = name.text.isNotEmpty ? name.text : profileInfo?.data?.name;
                           final newPhone = phone.text.isNotEmpty ? phone.text : profileInfo?.data?.phone;
                           final newAvatarId = selectedAvatarId ?? profileInfo?.data?.avaterId?.toInt();
 
-                          ApiManager().updateProfile(
+                          MessageResponse response = await ApiManager().updateProfile(
                             name: newName,
                             phone: newPhone,
                             avatarId: newAvatarId,
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                response.message ?? "Profile Updated Successfully",
+                              ),
+                              backgroundColor: Colors.green,
+                            ),
                           );
                         },
                         child: const Text(
