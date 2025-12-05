@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movies_app/update_data/message_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'profile_response.dart';
@@ -30,7 +31,7 @@ class ApiManager {
     return profileResponse;
   }
 
-  updateProfile({String? name, String? phone, int? avatarId}) async {
+  Future<MessageResponse> updateProfile({String? name, String? phone, int? avatarId}) async {
     await _getToken();
     Dio dio = Dio();
     final body = {
@@ -38,14 +39,17 @@ class ApiManager {
       if (phone != null) 'phone': phone,
       if (avatarId != null) 'avaterId': avatarId,
     };
-    dio.patch(
+    var response = await dio.patch(
       url,
       data: body,
       options: Options(headers: {"Authorization": "Bearer $token"}),
     );
+
+    MessageResponse messageResponse = MessageResponse.fromJson(response.data);
+    return messageResponse;
   }
 
-  deleteProfile() async {
+  Future<MessageResponse> deleteProfile() async {
     await _getToken();
     Dio dio = Dio();
     var response = await dio.delete(
@@ -54,8 +58,7 @@ class ApiManager {
     );
     await _deleteToken();
 
-    print(response.statusCode);
-    print(response.statusMessage);
-    print(response.data);
+    MessageResponse messageResponse = MessageResponse.fromJson(response.data);
+    return messageResponse;
   }
 }
