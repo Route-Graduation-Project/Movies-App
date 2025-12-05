@@ -109,7 +109,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ApiManager().deleteProfile();
+                          Navigator.pushNamed(context, Routes.loginRoute);
+                        },
                         style: FilledButton.styleFrom(
                           backgroundColor: AppColors.red,
                           foregroundColor: AppColors.white,
