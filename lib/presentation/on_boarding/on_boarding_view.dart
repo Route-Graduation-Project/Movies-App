@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/routing/routes.dart';
 import 'package:movies_app/presentation/on_boarding/models/on_boarding_model.dart';
 import 'package:movies_app/presentation/on_boarding/on_boarding_page.dart';
 
@@ -69,7 +70,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
-    } else {}
+    } else if (currentIndex == pages.length - 1) {
+      Navigator.pushReplacementNamed(context, Routes.loginRoute);
+    }
   }
 
   void goBack() {
