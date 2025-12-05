@@ -22,7 +22,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -81,7 +80,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             filled: true,
                             fillColor: AppColors.gray,
                             prefixIcon: const Icon(Icons.person),
-                            hintText: profileInfo?.data?.name?.toString() ?? "User Name",
+                            hintText:
+                                profileInfo?.data?.name?.toString() ??
+                                "User Name",
                           ),
                         ),
                         20.heightSpace,
@@ -91,13 +92,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             filled: true,
                             fillColor: AppColors.gray,
                             prefixIcon: const Icon(Icons.phone),
-                            hintText: profileInfo?.data?.phone?.toString() ?? "Phone Number",
+                            hintText:
+                                profileInfo?.data?.phone?.toString() ??
+                                "Phone Number",
                           ),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(Routes.resethRoute);
+                            },
                             child: const Text("Reset Password"),
                           ),
                         ),
@@ -131,9 +138,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
                         onPressed: () {
-                          final newName = name.text.isNotEmpty ? name.text : profileInfo?.data?.name;
-                          final newPhone = phone.text.isNotEmpty ? phone.text : profileInfo?.data?.phone;
-                          final newAvatarId = selectedAvatarId ?? profileInfo?.data?.avaterId?.toInt();
+                          final newName =
+                              name.text.isNotEmpty
+                                  ? name.text
+                                  : profileInfo?.data?.name;
+                          final newPhone =
+                              phone.text.isNotEmpty
+                                  ? phone.text
+                                  : profileInfo?.data?.phone;
+                          final newAvatarId =
+                              selectedAvatarId ??
+                              profileInfo?.data?.avaterId?.toInt();
 
                           ApiManager().updateProfile(
                             name: newName,

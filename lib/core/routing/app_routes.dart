@@ -6,6 +6,7 @@ import 'package:movies_app/presentation/auth/register/register_cubit/register_cu
 import 'package:movies_app/presentation/auth/register/register_view.dart';
 import 'package:movies_app/presentation/home/home_screen.dart';
 import 'package:movies_app/presentation/screens/splash_sceen.dart';
+import 'package:movies_app/presentation/update/reset_password.dart';
 import 'package:movies_app/presentation/update/select_picture_screen.dart';
 import 'package:movies_app/presentation/update/update_screen.dart';
 
@@ -47,6 +48,11 @@ abstract class AppRoutes {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => const LoginView(),
+        );
+      case Routes.resethRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const UpdateProfileWithReset(),
         );
       case Routes.selectPictureRoute:
         return PageRouteBuilder(
