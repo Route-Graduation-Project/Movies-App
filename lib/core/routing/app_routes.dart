@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/routing/routes.dart';
+import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/presentation/auth/login/login_view.dart';
 import 'package:movies_app/presentation/auth/register/register_cubit/register_cubit.dart';
 import 'package:movies_app/presentation/auth/register/register_view.dart';
@@ -21,9 +22,11 @@ abstract class AppRoutes {
       //   builder: (_) => const ExampleView(),
       // );
       case Routes.homeRoute:
+        final user = settings.arguments as RegisterResponseEntity;
+
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const HomeScreen(),
+          builder: (_) => HomeScreen(user: user),
         );
       case Routes.updateRoute:
         return MaterialPageRoute(
