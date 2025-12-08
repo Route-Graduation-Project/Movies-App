@@ -1,4 +1,6 @@
 class MovieDetailsEntity {
+    int? id;
+    	String? statusMessage;
   String? url;
   String? title;
   String? titleEnglish;
@@ -22,6 +24,8 @@ class MovieDetailsEntity {
   String? largeScreenshotImage3;
   List<CastEntity>? cast;
   MovieDetailsEntity({
+    required this.id,
+    required this.statusMessage,
     required this.backgroundImage,
     required this.backgroundImageOriginal,
     required this.cast,

@@ -2,10 +2,11 @@ import 'package:movies_app/data/models/movies_suggestion/movies_suggestions_repo
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 
 class MoviesSuggestionMapper {
-  List<MoviesSuggestionEntity> convertToMoviesSuggestionEntity(
+  MoviesSuggestionResultEntity convertToMoviesSuggestionEntity(
     MoviesSuggestionsReponse response,
   ) {
-    return response.data?.movies
+    final movies =
+        response.data?.movies
             ?.map(
               (e) => MoviesSuggestionEntity(
                 backgroundImage: e.backgroundImage,
@@ -14,9 +15,14 @@ class MoviesSuggestionMapper {
                 rating: e.rating,
                 smallCoverImage: e.smallCoverImage,
                 url: e.url,
+                id: e.id,
               ),
             )
             .toList() ??
         [];
+    return MoviesSuggestionResultEntity(
+      message: response.statusMessage,
+      movies: movies,
+    );
   }
 }
