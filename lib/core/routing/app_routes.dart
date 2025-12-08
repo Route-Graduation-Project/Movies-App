@@ -5,6 +5,7 @@ import 'package:movies_app/presentation/auth/login/login_view.dart';
 import 'package:movies_app/presentation/auth/register/register_cubit/register_cubit.dart';
 import 'package:movies_app/presentation/auth/register/register_view.dart';
 import 'package:movies_app/presentation/home/home_screen.dart';
+import 'package:movies_app/presentation/movie_details_screen/movie_details_view.dart';
 import 'package:movies_app/presentation/screens/splash_sceen.dart';
 import 'package:movies_app/presentation/update/select_picture_screen.dart';
 import 'package:movies_app/presentation/update/update_screen.dart';
@@ -53,6 +54,11 @@ abstract class AppRoutes {
           opaque: false,
           barrierColor: Colors.black54,
           pageBuilder: (_, __, ___) => const SelectPictureScreen(),
+        );
+      case Routes.movieDetailsRoute:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => MovieDetailsView(),
         );
       default:
         return MaterialPageRoute(
