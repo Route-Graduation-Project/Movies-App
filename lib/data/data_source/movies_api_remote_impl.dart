@@ -19,7 +19,7 @@ class MoviesApiRemoteImpl implements MoviesApiData {
   }
 
   @override
-  Future<List<MoviesSuggestionEntity>> getMovieSuggestions({
+  Future<MoviesSuggestionResultEntity> getMovieSuggestions({
     required int movieId,
   }) async {
     try {

@@ -6,6 +6,8 @@ class MoviesDetailEntityMapper {
     MoviesDetailsResponse response,
   ) {
     return MovieDetailsEntity(
+      statusMessage: response.statusMessage,
+      id: response.data?.movie?.id,
       backgroundImage: response.data?.movie?.backgroundImage,
       backgroundImageOriginal: response.data?.movie?.backgroundImageOriginal,
       cast:

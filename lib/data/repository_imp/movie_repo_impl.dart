@@ -24,7 +24,7 @@ class MovieRepoImpl implements MoviesRepository {
   }
 
   @override
-  Future<List<MoviesSuggestionEntity>> getMovieSuggestions({
+  Future<MoviesSuggestionResultEntity> getMovieSuggestions({
     required int movieId,
   }) async {
     try {
