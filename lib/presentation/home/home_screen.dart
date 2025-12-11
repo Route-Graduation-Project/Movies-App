@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/app_colors.dart';
+import 'package:movies_app/movies_data/api_manager.dart';
 import 'bottom_nav.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
+
+    testMoviesApi();
 
     return Scaffold(
       backgroundColor: AppColors.black,
@@ -207,5 +210,10 @@ class _HomeScreenState extends State<HomeScreen> {
         image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
       ),
     );
+  }
+
+  Future<void> testMoviesApi() async {
+    ApiManager apiManager = ApiManager();
+    await apiManager.get3DMovies();
   }
 }
