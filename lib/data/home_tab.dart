@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/movie_model.dart';
-import '../../services/movies_api_service.dart';
+import '..//services/movies_api_service.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});

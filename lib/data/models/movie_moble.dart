@@ -21,5 +21,4 @@ class MovieModel {
       year: json['year'] ?? 0,
       imageUrl: json['large_cover_image'] ?? '',
     );
-  }
-}
+  }}
