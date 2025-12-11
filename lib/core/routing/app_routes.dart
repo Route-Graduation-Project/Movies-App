@@ -10,9 +10,6 @@ import 'package:movies_app/presentation/on_boarding/onboarding_view.dart';
 import 'package:movies_app/presentation/update/select_picture_screen.dart';
 import 'package:movies_app/presentation/update/update_screen.dart';
 
-import '../../presentation/home/explore_screen.dart';
-import '../../presentation/home/profile_screen.dart';
-import '../../presentation/home/search_screen.dart';
 import '../app_colors.dart';
 
 abstract class AppRoutes {
@@ -60,28 +57,6 @@ abstract class AppRoutes {
           opaque: false,
           barrierColor: Colors.black54,
           pageBuilder: (_, __, ___) => const SelectPictureScreen(),
-        );
-      case Routes.movieDetailsRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => MovieDetailsView(),
-        );
-      case Routes.searchRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const SearchScreen(),
-        );
-
-      case Routes.exploreRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const ExploreScreen(),
-        );
-
-      case Routes.profileRoute:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) => const ProfileScreen(),
         );
 
       default:
