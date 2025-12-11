@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/app_colors.dart';
-import 'package:movies_app/core/utilis/context_extension.dart';
-import 'package:movies_app/core/utilis/white_space_extension.dart';
+import 'package:movies_app/core/utils/context_extension.dart';
+import 'package:movies_app/core/utils/white_space_extension.dart';
 import 'package:movies_app/presentation/auth/widgets/avatar_images_paths.dart';
 import 'package:movies_app/update_data/api_manager.dart';
 import 'package:movies_app/update_data/message_response.dart';

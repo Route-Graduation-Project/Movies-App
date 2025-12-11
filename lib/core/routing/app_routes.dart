@@ -24,7 +24,9 @@ abstract class AppRoutes {
       //   builder: (_) => const ExampleView(),
       // );
       case Routes.splashRoute:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(
+          settings: settings,
+            builder: (_) => const SplashScreen());
       case Routes.homeRoute:
         return MaterialPageRoute(
           settings: settings,

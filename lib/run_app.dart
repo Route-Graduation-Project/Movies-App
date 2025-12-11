@@ -1,10 +1,8 @@
-// import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/l10n/generated/i18n/app_localizations.dart';
 import 'package:movies_app/core/theme.dart';
 import 'package:movies_app/presentation/auth/login/login_cubit/login_injection.dart';
-
 import 'core/routing/app_routes.dart';
 import 'core/routing/routes.dart';
 
@@ -24,7 +22,7 @@ class MoviesApp extends StatelessWidget {
         darkTheme: AppTheme.darkTheme,
         debugShowCheckedModeBanner: false,
         onGenerateRoute: AppRoutes.generateRoute,
-        initialRoute: Routes.movieDetailsRoute,
+        initialRoute: Routes.loginRoute,
       ),
     );
   }
