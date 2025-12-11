@@ -1,5 +1,5 @@
+import 'package:injectable/injectable.dart';
 import 'package:movies_app/data/api_manager/api_client.dart';
-import 'package:movies_app/data/api_manager/shared_dio.dart';
 import 'package:movies_app/data/mappers/register_entity_mapper.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
@@ -7,8 +7,11 @@ import 'package:movies_app/data/models/register_request.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/api_remote_data.dart';
 
+import '../../core/di/di.dart';
+
+@Injectable(as: ApiRemoteData)
 class ApiRemoteImpl implements ApiRemoteData {
-  ApiClient apiClient = ApiClient(sharedDio());
+  ApiClient apiClient = ApiClient(getIt());
 
   @override
   Future<LoginResponse> loginWithEmailAndPassword(

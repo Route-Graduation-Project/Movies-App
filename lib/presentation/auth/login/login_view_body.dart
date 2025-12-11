@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_colors.dart';
-import 'package:movies_app/core/utilis/theme_extension.dart';
+import 'package:movies_app/core/utils/theme_extension.dart';
 import 'package:movies_app/presentation/auth/login/login_cubit/login_cubit.dart';
 import 'package:movies_app/presentation/auth/login/login_cubit/login_state.dart';
 import 'package:movies_app/presentation/auth/widgets/custom_text_form_field.dart';
