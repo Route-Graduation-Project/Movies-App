@@ -1,0 +1,24 @@
+flutter_native_splash:
+  color: "#121312"
+  image: assets/images/logo.png
+  color_dark: "#121312"
+  image_dark: assets/images/logo.png
+
+  android_12:
+    image: assets/images/logo_android_12.png
+    color: "#121312"
+    image_dark: assets/images/logo_android_12.png
+    color_dark: "#121312"
+  android: true
+  ios: true
+  color_android: "#121312"
+  color_dark_android: "#121312"
+  color_ios: "#121312"
+  color_dark_ios: "#121312"
+  color_web: "#121312"
+  color_dark_web: "#121312"
+  image_android: assets/images/logo.png
+  image_dark_android: assets/images/logo.png
+  image_ios: assets/images/logo.png
+  image_dark_ios: assets/images/logo.png
+

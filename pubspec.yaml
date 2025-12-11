@@ -54,6 +54,7 @@ dependencies:
   webview_flutter: ^4.13.0
   injectable:
   get_it:
+  flutter_native_splash: ^2.4.7
 
 
 dev_dependencies:
