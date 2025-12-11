@@ -28,6 +28,7 @@ import '../../domain/repository/movies_repository.dart' as _i231;
 import '../../domain/use_case/use_case.dart' as _i719;
 import '../../presentation/movie_details_screen/cubit/movie_details_cubit.dart'
     as _i941;
+import '../../presentation/on_boarding/cubit/onboarding_cubit.dart' as _i815;
 import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -40,6 +41,7 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.factory<_i719.UseCase>(() => _i719.UseCase());
     gh.factory<_i941.MovieDetailsCubit>(() => _i941.MovieDetailsCubit());
+    gh.factory<_i815.OnboardingCubit>(() => _i815.OnboardingCubit());
     gh.lazySingleton<_i361.Dio>(() => dioModule.sharedDio());
     gh.singleton<_i686.ApiClient>(() => _i686.ApiClient.new(gh<_i361.Dio>()));
     gh.singleton<_i959.MoviesApiClient>(

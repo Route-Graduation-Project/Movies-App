@@ -52,7 +52,15 @@ abstract class AppTheme {
       style: FilledButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         padding: const EdgeInsets.all(16),
-        textStyle: const TextStyle(fontSize: 20, color: AppColors.black),
+        textStyle: const TextStyle(fontSize: 16, color: AppColors.black,fontWeight: FontWeight.bold),
+      ),
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        padding: const EdgeInsets.all(16),
+        textStyle: const TextStyle(fontSize: 16, color: AppColors.yellow,fontWeight: FontWeight.bold),
       ),
     ),
 

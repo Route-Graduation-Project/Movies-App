@@ -7,8 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/base/bloc_observer.dart';
 import 'package:movies_app/firebase_options.dart';
 import 'package:movies_app/run_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/di/di.dart';
+import 'core/routing/routes.dart';
 
 
 void main() async {
@@ -16,11 +18,29 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Bloc.observer = MyBlocObserver();
   configureDependencies();
-  runApp(const MoviesApp());
+  String initialRoute = await getInitialRoute();
+  runApp(MoviesApp(initialRoute: initialRoute,));
   // runApp(
   //   DevicePreview(
   //     enabled: !kReleaseMode,
   //     builder: (context) => const MoviesApp(),
   //   ),
   // );
+}
+
+Future<String> getInitialRoute()async{
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  if(preferences.getBool("onboarding") == null)
+    {
+      return Routes.onboardingRoute;
+    }
+  else if(preferences.getString("token") == null)
+    {
+      return Routes.loginRoute;
+    }
+  else
+    {
+      return Routes.homeRoute;
+    }
+
 }
