@@ -1,16 +1,15 @@
 import 'package:dio/dio.dart';
-
-import 'movies_list_3d_response.dart';
+import 'package:movies_app/movies_data/movies_list_response.dart';
 
 class ApiManager {
   String baseUrl = "yts.lt";
 
-  Future<MoviesList3dResponse> get3DMovies() async {
+  Future<MoviesListResponse> get3DMovies() async {
     Dio dio = Dio();
-    Uri uri = Uri.http(baseUrl, "/api/v2/list_movies.json", {"quality": "3D"});
+    Uri uri = Uri.http(baseUrl, "/api/v2/list_movies.json");
     final response = await dio.getUri(uri);
 
-    MoviesList3dResponse movies3D = MoviesList3dResponse.fromJson(response.data);
+    MoviesListResponse movies3D = MoviesListResponse.fromJson(response.data);
 
     print(movies3D.status);
     print(movies3D.statusMessage);

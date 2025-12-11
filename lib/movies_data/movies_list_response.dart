@@ -1,12 +1,12 @@
-class MoviesList3dResponse {
-  MoviesList3dResponse({
+class MoviesListResponse {
+  MoviesListResponse({
     this.status,
     this.statusMessage,
     this.data,
     this.meta,
   });
 
-  MoviesList3dResponse.fromJson(dynamic json) {
+  MoviesListResponse.fromJson(dynamic json) {
     status = json['status'];
     statusMessage = json['status_message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -22,8 +22,8 @@ class MoviesList3dResponse {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['status_message'] = statusMessage;
-    if (data != null) map['data'] = data!.toJson();
-    if (meta != null) map['@meta'] = meta!.toJson();
+    if (data != null) map['data'] = data?.toJson();
+    if (meta != null) map['@meta'] = meta?.toJson();
     return map;
   }
 }
@@ -58,13 +58,13 @@ class Meta {
   }
 }
 
+
 class Data {
   Data({
-    this.movieCount,
-    this.limit,
-    this.pageNumber,
-    this.movies,
-  });
+      this.movieCount, 
+      this.limit, 
+      this.pageNumber, 
+      this.movies,});
 
   Data.fromJson(dynamic json) {
     movieCount = json['movie_count'];
@@ -77,7 +77,6 @@ class Data {
       });
     }
   }
-
   num? movieCount;
   num? limit;
   num? pageNumber;
@@ -89,39 +88,41 @@ class Data {
     map['limit'] = limit;
     map['page_number'] = pageNumber;
     if (movies != null) {
-      map['movies'] = movies!.map((v) => v.toJson()).toList();
+      map['movies'] = movies?.map((v) => v.toJson()).toList();
     }
     return map;
   }
+
 }
 
 class Movies {
   Movies({
-    this.id,
-    this.url,
-    this.imdbCode,
-    this.title,
-    this.titleEnglish,
-    this.titleLong,
-    this.slug,
-    this.year,
-    this.rating,
-    this.runtime,
-    this.genres,
-    this.summary,
-    this.descriptionFull,
-    this.synopsis,
-    this.ytTrailerCode,
-    this.language,
-    this.mpaRating,
-    this.backgroundImage,
-    this.backgroundImageOriginal,
-    this.smallCoverImage,
-    this.mediumCoverImage,
-    this.largeCoverImage,
-    this.state,
-    this.torrents,
-  });
+      this.id, 
+      this.url, 
+      this.imdbCode, 
+      this.title, 
+      this.titleEnglish, 
+      this.titleLong, 
+      this.slug, 
+      this.year, 
+      this.rating, 
+      this.runtime, 
+      this.genres, 
+      this.summary, 
+      this.descriptionFull, 
+      this.synopsis, 
+      this.ytTrailerCode, 
+      this.language, 
+      this.mpaRating, 
+      this.backgroundImage, 
+      this.backgroundImageOriginal, 
+      this.smallCoverImage, 
+      this.mediumCoverImage, 
+      this.largeCoverImage, 
+      this.state, 
+      this.torrents, 
+      this.dateUploaded, 
+      this.dateUploadedUnix,});
 
   Movies.fromJson(dynamic json) {
     id = json['id'];
@@ -153,8 +154,9 @@ class Movies {
         torrents?.add(Torrents.fromJson(v));
       });
     }
+    dateUploaded = json['date_uploaded'];
+    dateUploadedUnix = json['date_uploaded_unix'];
   }
-
   num? id;
   String? url;
   String? imdbCode;
@@ -179,6 +181,8 @@ class Movies {
   String? largeCoverImage;
   String? state;
   List<Torrents>? torrents;
+  String? dateUploaded;
+  num? dateUploadedUnix;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -206,29 +210,31 @@ class Movies {
     map['large_cover_image'] = largeCoverImage;
     map['state'] = state;
     if (torrents != null) {
-      map['torrents'] = torrents!.map((v) => v.toJson()).toList();
+      map['torrents'] = torrents?.map((v) => v.toJson()).toList();
     }
+    map['date_uploaded'] = dateUploaded;
+    map['date_uploaded_unix'] = dateUploadedUnix;
     return map;
   }
+
 }
 
 class Torrents {
   Torrents({
-    this.url,
-    this.hash,
-    this.quality,
-    this.type,
-    this.isRepack,
-    this.videoCodec,
-    this.bitDepth,
-    this.audioChannels,
-    this.seeds,
-    this.peers,
-    this.size,
-    this.sizeBytes,
-    this.dateUploaded,
-    this.dateUploadedUnix,
-  });
+      this.url, 
+      this.hash, 
+      this.quality, 
+      this.type, 
+      this.isRepack, 
+      this.videoCodec, 
+      this.bitDepth, 
+      this.audioChannels, 
+      this.seeds, 
+      this.peers, 
+      this.size, 
+      this.sizeBytes, 
+      this.dateUploaded, 
+      this.dateUploadedUnix,});
 
   Torrents.fromJson(dynamic json) {
     url = json['url'];
@@ -246,7 +252,6 @@ class Torrents {
     dateUploaded = json['date_uploaded'];
     dateUploadedUnix = json['date_uploaded_unix'];
   }
-
   String? url;
   String? hash;
   String? quality;
@@ -280,4 +285,5 @@ class Torrents {
     map['date_uploaded_unix'] = dateUploadedUnix;
     return map;
   }
+
 }
