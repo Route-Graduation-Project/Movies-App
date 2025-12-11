@@ -1,6 +1,6 @@
 class MovieDetailsEntity {
-    int? id;
-    	String? statusMessage;
+  int? id;
+  String? statusMessage;
   String? url;
   String? title;
   String? titleEnglish;
@@ -23,6 +23,7 @@ class MovieDetailsEntity {
   String? largeScreenshotImage2;
   String? largeScreenshotImage3;
   List<CastEntity>? cast;
+
   MovieDetailsEntity({
     required this.id,
     required this.statusMessage,
