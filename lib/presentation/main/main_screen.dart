@@ -30,7 +30,6 @@ class _MainScreenState extends State<MainScreen> {
       body: screens[currentIndex],
 
       bottomNavigationBar: Container(
-        //margin: const EdgeInsets.all(12),
         padding: const EdgeInsets.symmetric(vertical: 2),
         decoration: BoxDecoration(
           color: AppColors.gray,
@@ -55,19 +54,19 @@ class _MainScreenState extends State<MainScreen> {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: "Home",
+                label: "",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.search_rounded),
-                label: "Search",
+                label: "",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.explore_rounded),
-                label: "Explore",
+                label: "",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: "Profile",
+                label: "",
               ),
             ],
           ),

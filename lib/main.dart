@@ -40,7 +40,7 @@ Future<String> getInitialRoute()async{
     }
   else
     {
-      return Routes.homeRoute;
+      return Routes.mainRoute;
     }
 
 }
