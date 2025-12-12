@@ -12,7 +12,7 @@ part of 'movies_api_client.dart';
 
 class _MoviesApiClient implements MoviesApiClient {
   _MoviesApiClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://yts.lt/api/v2/';
+    baseUrl ??= 'https://yts.mx/api/v2/';
   }
 
   final Dio _dio;
@@ -22,25 +22,44 @@ class _MoviesApiClient implements MoviesApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<MoviesDetailsResponse> moviesDetails(int movieId) async {
+  Future<MovieListResponse> getMovies({
+    int? limit,
+    int? page,
+    String? quality,
+    int? minimumRating,
+    String? queryTerm,
+    String? genre,
+    String? sortBy,
+    String? orderBy,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'movie_id': movieId};
+    final queryParameters = <String, dynamic>{
+      r'limit': limit,
+      r'page': page,
+      r'quality': quality,
+      r'minimum_rating': minimumRating,
+      r'query_term': queryTerm,
+      r'genre': genre,
+      r'sort_by': sortBy,
+      r'order_by': orderBy,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MoviesDetailsResponse>(
+    final _options = _setStreamType<MovieListResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'movie_details.json?with_images=true&with_cast=true',
+            'list_movies.json',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MoviesDetailsResponse _value;
+    late MovieListResponse _value;
     try {
-      _value = MoviesDetailsResponse.fromJson(_result.data!);
+      _value = MovieListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;
@@ -49,25 +68,52 @@ class _MoviesApiClient implements MoviesApiClient {
   }
 
   @override
-  Future<MoviesSuggestionsReponse> moviesSuggestion(int movieId) async {
+  Future<MovieDetailsResponse> getMovieDetails(int movieId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'movie_id': movieId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MoviesSuggestionsReponse>(
+    final _options = _setStreamType<MovieDetailsResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'movie_suggestions.json?',
+            'movie_details.json',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MoviesSuggestionsReponse _value;
+    late MovieDetailsResponse _value;
     try {
-      _value = MoviesSuggestionsReponse.fromJson(_result.data!);
+      _value = MovieDetailsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<MovieSuggestionsResponse> getMovieSuggestions(int movieId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'movie_id': movieId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<MovieSuggestionsResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'movie_suggestions.json',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MovieSuggestionsResponse _value;
+    try {
+      _value = MovieSuggestionsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;
