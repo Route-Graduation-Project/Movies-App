@@ -9,8 +9,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentIndex = 0;
-
   final posters = [
     "assets/images/im1.jpg",
     "assets/images/im2.jpg",
@@ -21,50 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> screens = [
-      homeBody(),
-      searchBody(),
-      exploreBody(),
-      profileBody(),
-    ];
-
-    return Scaffold(
-      backgroundColor: AppColors.black,
-      body: screens[currentIndex],
-
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: AppColors.gray,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            navItem(Icons.home, 0),
-            navItem(Icons.search_rounded, 1),
-            navItem(Icons.explore_rounded, 2),
-            navItem(Icons.person, 3),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget navItem(IconData icon, int index) {
-    return GestureDetector(
-      onTap: () => setState(() => currentIndex = index),
-      child: Icon(
-        icon,
-        size: 28,
-        color: currentIndex == index ? AppColors.yellow : AppColors.white,
-      ),
-    );
-  }
-
-
-  Widget homeBody() {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
@@ -72,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
-          children: [
+          children:[
             SizedBox(
               height: height * 0.7,
               child: Stack(
@@ -103,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+
                   Positioned(
                     top: height * 0.02,
                     child: Image.asset(
@@ -110,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: width * 0.6,
                     ),
                   ),
+
                   Positioned(
                     top: height * 0.17,
                     bottom: height * 0.14,
@@ -118,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: _scrollingPosters(width),
                     ),
                   ),
+
                   Positioned(
                     bottom: height * 0.01,
                     child: Image.asset(
@@ -177,43 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
-  Widget searchBody() {
-    return const SafeArea(
-      child: Center(
-        child: Text(
-          "Search Screen",
-          style: TextStyle(color: AppColors.white, fontSize: 20),
-        ),
-      ),
-    );
-  }
-  Widget exploreBody() {
-    return const SafeArea(
-      child: Center(
-        child: Text(
-          "Explore Screen",
-          style: TextStyle(color: AppColors.white, fontSize: 20),
-        ),
-      ),
-    );
-  }
-
-
-  Widget profileBody() {
-    return const SafeArea(
-      child: Center(
-        child: Text(
-          "Profile Screen",
-          style: TextStyle(color: AppColors.white, fontSize: 20),
-        ),
-      ),
-    );
-  }
-
-
-
   Widget _scrollingPosters(double width) {
     final PageController controller =
     PageController(viewportFraction: 0.54, initialPage: 1);
@@ -235,15 +155,44 @@ class _HomeScreenState extends State<HomeScreen> {
             return Center(
               child: Transform.scale(
                 scale: scale,
-                child: Container(
-                  width: width * 0.55,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    image: DecorationImage(
-                      image: AssetImage(posters[index]),
-                      fit: BoxFit.cover,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: width * 0.55,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        image: DecorationImage(
+                          image: AssetImage(posters[index]),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+
+                    Positioned(
+                      top: 8,
+                      left: 8,
+                      child: Container(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: const [
+                            Text(
+                              "7.7",
+                              style:
+                              TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                            SizedBox(width: 4),
+                            Icon(Icons.star,
+                                color: Colors.yellow, size: 14),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -253,14 +202,42 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
   Widget movieCard(String img, double width) {
-    return Container(
-      width: width * 0.36,
-      margin: const EdgeInsets.only(right: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
-      ),
+    return Stack(
+      children: [
+        Container(
+          width: width * 0.36,
+          margin: const EdgeInsets.only(right: 15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
+          ),
+        ),
+
+        // ⭐ RATING
+        Positioned(
+          top: 8,
+          left: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: const [
+                Text(
+                  "7.7",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
+                SizedBox(width: 4),
+                Icon(Icons.star, color: Colors.yellow, size: 14),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
