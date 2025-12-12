@@ -1,12 +1,15 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:injectable/injectable.dart';
+import 'package:movies_app/core/di/di.dart';
+import 'package:movies_app/data/data_source/movies_api_remote_impl.dart';
 import 'package:movies_app/domain/entity/movie_details_entity.dart';
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 import 'package:movies_app/domain/repository/movies_api_remote_data.dart';
 import 'package:movies_app/domain/repository/movies_repository.dart';
 
+@Injectable(as: MoviesRepository)
 class MovieRepoImpl implements MoviesRepository {
-  final MoviesApiData _moviesApiData;
-  MovieRepoImpl(this._moviesApiData);
+  final MoviesApiData _moviesApiData = getIt();
 
   @override
   Future<MovieDetailsEntity> getMovieDetails({required movieId}) async {

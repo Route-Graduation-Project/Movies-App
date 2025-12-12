@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/utilis/theme_extension.dart';
+import 'package:movies_app/core/utils/theme_extension.dart';
 
 class NavigateToLoginRow extends StatelessWidget {
   const NavigateToLoginRow({super.key, this.onTap});

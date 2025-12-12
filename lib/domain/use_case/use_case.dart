@@ -1,0 +1,21 @@
+import 'package:injectable/injectable.dart';
+import 'package:movies_app/core/di/di.dart';
+import 'package:movies_app/domain/entity/movie_details_entity.dart';
+import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
+import '../repository/movies_repository.dart';
+
+@injectable
+class UseCase{
+  final MoviesRepository _moviesRepository = getIt();
+
+  Future<MovieDetailsEntity> getMovieDetails(int movieId) async{
+    return await _moviesRepository.getMovieDetails(movieId: movieId);
+  }
+
+  Future<MoviesSuggestionResultEntity> getMovieSuggestion(int movieId)
+  async {
+    return await _moviesRepository.getMovieSuggestions(movieId: movieId);
+  }
+
+
+}
