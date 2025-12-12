@@ -1,12 +1,15 @@
 import 'package:movies_app/core/base/base_cubit.dart';
 import 'package:movies_app/data/data_source/api_remote_impl.dart';
+import 'package:movies_app/data/data_source/firebase_data_source_impl.dart';
 import 'package:movies_app/data/repository_imp/auth_repo_impl.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/auth_repository.dart';
 import 'package:movies_app/presentation/auth/register/register_cubit/register_state.dart';
 
 RegisterCubit injectionRegisterCubit() {
-  return RegisterCubit(ApiAuthRepoImpl(ApiRemoteImpl()));
+  return RegisterCubit(
+    ApiAuthRepoImpl(ApiRemoteImpl(), FirebaseDataSourceImpl()),
+  );
 }
 
 class RegisterCubit
@@ -17,6 +20,7 @@ class RegisterCubit
   RegisterResponseEntity? registerResponse;
   int currentIndex = 0;
   bool isPassword = true;
+  bool isRePassword = true;
   @override
   Future<void> doAction(RegisterActions action) async {
     switch (action) {
@@ -34,6 +38,8 @@ class RegisterCubit
       case PasswordVisibility():
         _passwordVisibility();
         break;
+      case RePasswordVisibility():
+        _rePasswordVisibility();
     }
   }
 
@@ -68,6 +74,11 @@ class RegisterCubit
   void _passwordVisibility() {
     isPassword = !isPassword;
     emit(UpdatePassword(isPassword));
+  }
+
+  void _rePasswordVisibility() {
+    isRePassword = !isRePassword;
+    emit(UpdateRePassword(isRePassword));
   }
 
   void _getAvatarId(SaveAvatarId action) {
