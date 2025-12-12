@@ -1,25 +1,17 @@
-import 'package:movies_app/data/models/movies_details/movies_details_response/movies_details_response.dart';
+import 'package:movies_app/data/models/cast_model.dart';
+import 'package:movies_app/data/models/movie_details_response.dart';
 import 'package:movies_app/domain/entity/movie_details_entity.dart';
 
 class MoviesDetailEntityMapper {
   MovieDetailsEntity convertToMoviesDetailsEntity(
-    MoviesDetailsResponse response,
+    MovieDetailsResponse response,
   ) {
     return MovieDetailsEntity(
       statusMessage: response.statusMessage,
       id: response.data?.movie?.id,
       backgroundImage: response.data?.movie?.backgroundImage,
       backgroundImageOriginal: response.data?.movie?.backgroundImageOriginal,
-      cast:
-          response.data?.movie?.cast
-              ?.map(
-                (e) => CastEntity(
-                  characterName: e.characterName,
-                  name: e.name,
-                  urlSmallImage: e.urlSmallImage,
-                ),
-              )
-              .toList(),
+      cast: response.data?.movie?.cast?.map((e) => _mapCast(e)).toList() ?? [],
       descriptionFull: response.data?.movie?.descriptionFull,
       descriptionIntro: response.data?.movie?.descriptionIntro,
       genres: response.data?.movie?.genres,
@@ -39,6 +31,14 @@ class MoviesDetailEntityMapper {
       titleEnglish: response.data?.movie?.titleEnglish,
       url: response.data?.movie?.url,
       year: response.data?.movie?.year,
+    );
+  }
+
+  CastEntity _mapCast(CastModel model) {
+    return CastEntity(
+      name: model.name,
+      characterName: model.characterName,
+      urlSmallImage: model.urlSmallImage,
     );
   }
 }

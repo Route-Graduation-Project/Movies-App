@@ -1,9 +1,9 @@
-import 'package:movies_app/data/models/movies_suggestion/movies_suggestions_reponse/movies_suggestions_reponse.dart';
+import 'package:movies_app/data/models/movie_suggestions_response.dart';
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 
 class MoviesSuggestionMapper {
   MoviesSuggestionResultEntity convertToMoviesSuggestionEntity(
-    MoviesSuggestionsReponse response,
+    MovieSuggestionsResponse response,
   ) {
     final movies =
         response.data?.movies

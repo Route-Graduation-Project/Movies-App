@@ -1,6 +1,10 @@
 import 'package:movies_app/data/api_manager/movies_api_client.dart';
 import 'package:movies_app/data/api_manager/shared_dio.dart';
+import 'package:movies_app/data/mappers/movies_detail_entity_mapper.dart';
+import 'package:movies_app/data/mappers/movies_suggestion_mapper.dart';
 import 'package:movies_app/data/models/movie_model.dart';
+import 'package:movies_app/domain/entity/movie_details_entity.dart';
+import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 import 'package:movies_app/domain/repository/movies_remote_data_source.dart';
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
@@ -35,17 +39,14 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<MovieModel> getMovieDetails(int movieId) async {
+  Future<MovieDetailsEntity> getMovieDetails(int movieId) async {
     final response = await _apiClient.getMovieDetails(movieId);
-    if (response.data?.movie == null) {
-      throw Exception("Movie not found");
-    }
-    return response.data!.movie!;
+    return MoviesDetailEntityMapper().convertToMoviesDetailsEntity(response);
   }
 
   @override
-  Future<List<MovieModel>> getMovieSuggestions(int movieId) async {
+  Future<MoviesSuggestionResultEntity> getMovieSuggestions(int movieId) async {
     final response = await _apiClient.getMovieSuggestions(movieId);
-    return response.data?.movies ?? [];
+    return MoviesSuggestionMapper().convertToMoviesSuggestionEntity(response);
   }
 }

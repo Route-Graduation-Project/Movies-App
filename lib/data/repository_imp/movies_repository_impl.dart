@@ -1,5 +1,7 @@
 import 'package:movies_app/data/mappers/movie_mapper.dart';
+import 'package:movies_app/domain/entity/movie_details_entity.dart';
 import 'package:movies_app/domain/entity/movie_entity.dart';
+import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 import 'package:movies_app/domain/repository/movies_remote_data_source.dart';
 import 'package:movies_app/domain/repository/movies_repository.dart';
 
@@ -33,14 +35,14 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<MovieEntity> getMovieDetails(int movieId) async {
-    final model = await _remoteDataSource.getMovieDetails(movieId);
-    return MovieMapper.toEntity(model);
+  Future<MovieDetailsEntity> getMovieDetails({required int movieId}) async {
+    return await _remoteDataSource.getMovieDetails(movieId);
   }
 
   @override
-  Future<List<MovieEntity>> getMovieSuggestions(int movieId) async {
-    final models = await _remoteDataSource.getMovieSuggestions(movieId);
-    return models.map((model) => MovieMapper.toEntity(model)).toList();
+  Future<MoviesSuggestionResultEntity> getMovieSuggestions({
+    required int movieId,
+  }) async {
+    return await _remoteDataSource.getMovieSuggestions(movieId);
   }
 }

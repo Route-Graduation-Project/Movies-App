@@ -1,4 +1,6 @@
 import 'package:movies_app/data/models/movie_model.dart';
+import 'package:movies_app/domain/entity/movie_details_entity.dart';
+import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 
 abstract interface class MoviesRemoteDataSource {
   Future<List<MovieModel>> getMovies({
@@ -11,6 +13,6 @@ abstract interface class MoviesRemoteDataSource {
     String? sortBy,
     String? orderBy,
   });
-  Future<MovieModel> getMovieDetails(int movieId);
-  Future<List<MovieModel>> getMovieSuggestions(int movieId);
+  Future<MovieDetailsEntity> getMovieDetails(int movieId);
+  Future<MoviesSuggestionResultEntity> getMovieSuggestions(int movieId);
 }
