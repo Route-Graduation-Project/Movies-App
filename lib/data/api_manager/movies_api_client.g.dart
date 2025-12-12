@@ -68,9 +68,18 @@ class _MoviesApiClient implements MoviesApiClient {
   }
 
   @override
-  Future<MovieDetailsResponse> getMovieDetails(int movieId) async {
+  Future<MovieDetailsResponse> getMovieDetails(
+    int movieId, {
+    bool? withImages,
+    bool? withCast,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'movie_id': movieId};
+    final queryParameters = <String, dynamic>{
+      r'movie_id': movieId,
+      r'with_images': withImages,
+      r'with_cast': withCast,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MovieDetailsResponse>(

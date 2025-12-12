@@ -7,8 +7,8 @@ class MovieDetailsInitial extends MovieDetailsState {}
 class MovieDetailsLoading extends MovieDetailsState {}
 
 class MovieDetailsSuccess extends MovieDetailsState {
-  final MovieEntity movie;
-  final List<MovieEntity> suggestions;
+  final MovieDetailsEntity movie;
+  final MoviesSuggestionResultEntity suggestions;
 
   MovieDetailsSuccess({required this.movie, required this.suggestions});
 }

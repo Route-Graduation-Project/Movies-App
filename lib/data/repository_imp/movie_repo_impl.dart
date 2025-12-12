@@ -1,8 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies_app/core/di/di.dart';
-import 'package:movies_app/data/data_source/movies_api_remote_impl.dart';
 import 'package:movies_app/domain/entity/movie_details_entity.dart';
+import 'package:movies_app/domain/entity/movie_entity.dart';
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
 import 'package:movies_app/domain/repository/movies_api_remote_data.dart';
 import 'package:movies_app/domain/repository/movies_repository.dart';
@@ -10,6 +10,38 @@ import 'package:movies_app/domain/repository/movies_repository.dart';
 @Injectable(as: MoviesRepository)
 class MovieRepoImpl implements MoviesRepository {
   final MoviesApiData _moviesApiData = getIt();
+
+  @override
+  Future<List<MovieEntity>> getMovies({
+    int? limit,
+    int? page,
+    String? quality,
+    int? minimumRating,
+    String? queryTerm,
+    String? genre,
+    String? sortBy,
+    String? orderBy,
+  }) async {
+    try {
+      bool connected = await _isConnected();
+      if (connected) {
+        return await _moviesApiData.getMovies(
+          limit: limit,
+          page: page,
+          quality: quality,
+          minimumRating: minimumRating,
+          queryTerm: queryTerm,
+          genre: genre,
+          sortBy: sortBy,
+          orderBy: orderBy,
+        );
+      } else {
+        throw ("There is no connection. Check the connection and try again");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Future<MovieDetailsEntity> getMovieDetails({required movieId}) async {

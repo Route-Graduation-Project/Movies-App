@@ -1,3 +1,5 @@
+import 'cast_model.dart';
+
 class MovieModel {
   final int? id;
   final String? url;
@@ -24,6 +26,15 @@ class MovieModel {
   final String? state;
   final String? dateUploaded;
   final int? dateUploadedUnix;
+  final int? likeCount;
+  final String? descriptionIntro;
+  final String? mediumScreenshotImage1;
+  final String? mediumScreenshotImage2;
+  final String? mediumScreenshotImage3;
+  final String? largeScreenshotImage1;
+  final String? largeScreenshotImage2;
+  final String? largeScreenshotImage3;
+  final List<CastModel>? cast;
 
   MovieModel({
     this.id,
@@ -51,6 +62,15 @@ class MovieModel {
     this.state,
     this.dateUploaded,
     this.dateUploadedUnix,
+    this.likeCount,
+    this.descriptionIntro,
+    this.mediumScreenshotImage1,
+    this.mediumScreenshotImage2,
+    this.mediumScreenshotImage3,
+    this.largeScreenshotImage1,
+    this.largeScreenshotImage2,
+    this.largeScreenshotImage3,
+    this.cast,
   });
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
@@ -81,9 +101,18 @@ class MovieModel {
       state: json['state'],
       dateUploaded: json['date_uploaded'],
       dateUploadedUnix: json['date_uploaded_unix'],
+      likeCount: json['like_count'],
+      descriptionIntro: json['description_intro'],
+      mediumScreenshotImage1: json['medium_screenshot_image1'],
+      mediumScreenshotImage2: json['medium_screenshot_image2'],
+      mediumScreenshotImage3: json['medium_screenshot_image3'],
+      largeScreenshotImage1: json['large_screenshot_image1'],
+      largeScreenshotImage2: json['large_screenshot_image2'],
+      largeScreenshotImage3: json['large_screenshot_image3'],
+      cast:
+          (json['cast'] as List<dynamic>?)
+              ?.map((e) => CastModel.fromJson(e))
+              .toList(),
     );
   }
-
-  // Add a method to convert to Entity
-  // I'll do this later or in a mapper
 }
