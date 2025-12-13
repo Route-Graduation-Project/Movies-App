@@ -4,7 +4,7 @@ import 'package:movies_app/core/l10n/generated/i18n/app_localizations.dart';
 import 'package:movies_app/core/theme.dart';
 
 import '../core/routing/app_routes.dart';
-import '../core/routing/routes.dart';
+import '../core/routing
 
 class MoviesApp extends StatelessWidget {
   const MoviesApp({super.key});
