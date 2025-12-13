@@ -341,4 +341,3 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     );
   }
 }
->>>>>>> Stashed changes
