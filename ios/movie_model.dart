@@ -12,7 +12,6 @@ class MovieModel {
     required this.year,
     required this.imageUrl,
   });
-
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
       id: json['id'] ?? 0,
