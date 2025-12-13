@@ -23,4 +23,3 @@ class MoviesApp extends StatelessWidget {
       initialRoute: Routes.loginRoute,
     );
   }
-
