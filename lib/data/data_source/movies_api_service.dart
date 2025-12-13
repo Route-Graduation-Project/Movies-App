@@ -14,8 +14,7 @@ class MoviesApiService {
       final data = jsonDecode(response.body);
       final List moviesJson = data['data']['movies'] ?? [];
 
-      return moviesJson
-          .map((movieJson) => MovieModel.fromJson(movieJson))
+      return moviesJson.map((movieJson) => MovieModel.fromJson(movieJson))
           .toList();
     } else {
       throw Exception('Failed to load movies. Code: ${response.statusCode}');
