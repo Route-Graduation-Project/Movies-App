@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const Icon(Icons.star, size: 14),
                           const SizedBox(width: 2),
-                          Text(
+                          Text(  
                             movie.rating.toString(),
                             style: const TextStyle(fontSize: 12),
                           ),
