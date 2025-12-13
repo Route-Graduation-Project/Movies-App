@@ -10,7 +10,7 @@ class MoviesApp extends StatelessWidget {
   const MoviesApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contex t) {
     return MaterialApp(
       // useInheritedMediaQuery: true,
       // builder: DevicePreview.appBuilder,
