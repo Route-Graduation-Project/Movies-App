@@ -1,10 +1,5 @@
 // import 'package:device_preview/device_preview.dart';
-import 'package:flutter/material.dart';
-import 'package:movies_app/core/l10n/generated/i18n/app_localizations.dart';
-import 'package:movies_app/core/theme.dart';
-
-import '../core/routing/app_routes.dart';
-import '../core/routin
+import
 
 class MoviesApp extends StatelessWidget {
   const MoviesApp({super.key});
