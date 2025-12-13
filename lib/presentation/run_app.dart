@@ -1,6 +1,5 @@
 // import 'package:device_preview/device_preview.dart';
 import
-
 class MoviesApp extends StatelessWidget {
   const MoviesApp({super.key});
 
