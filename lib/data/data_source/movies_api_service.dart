@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import '../models/movie_model.dart';
+import '../models/movie_model.dart'
 
 class MoviesApiService {
   static const String _baseUrl = 'https://yts.mx/api/v2/list_movies.json';
