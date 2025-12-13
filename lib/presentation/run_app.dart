@@ -1,16 +1,10 @@
 // import 'package:device_preview/device_preview.dart';
-import 'package:flutter/material.dart';
-import 'package:movies_app/core/l10n/generated/i18n/app_localizations.dart';
-import 'package:movies_app/core/theme.dart';
-
-import 'core/routing/app_routes.dart';
-import 'core/routing/routes.dart';
-
+import
 class MoviesApp extends StatelessWidget {
   const MoviesApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contex t) {
     return MaterialApp(
       // useInheritedMediaQuery: true,
       // builder: DevicePreview.appBuilder,
@@ -23,4 +17,3 @@ class MoviesApp extends StatelessWidget {
       initialRoute: Routes.loginRoute,
     );
   }
-}
