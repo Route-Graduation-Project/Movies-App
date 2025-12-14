@@ -24,6 +24,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController oldPassword = TextEditingController();
   TextEditingController newPassword = TextEditingController();
   bool passwordVisible = false;
+  bool rePasswordVisible = false;
 
   @override
   void initState() {
@@ -77,8 +78,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 passwordVisible
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -99,7 +100,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 resetValue: newPassword.text,
                                 originalPasswordValue: oldPassword.text,
                               ),
-                          obscureText: !passwordVisible,
+                          obscureText: !rePasswordVisible,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: AppColors.gray,
@@ -107,13 +108,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             hintText: "New Password",
                             suffixIcon: IconButton(
                               icon: Icon(
-                                passwordVisible
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
+                                rePasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                               ),
                               onPressed: () {
                                 setState(() {
-                                  passwordVisible = !passwordVisible;
+                                  rePasswordVisible = !rePasswordVisible;
                                 });
                               },
                             ),
