@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:movies_app/core/app_colors.dart';
@@ -64,7 +65,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         20.heightSpace,
                         TextFormField(
                           controller: oldPassword,
-                          validator: (value) => Validation.validatePassword(value),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator:
+                              (value) => Validation.validatePassword(value),
                           obscureText: !passwordVisible,
                           decoration: InputDecoration(
                             filled: true,
@@ -73,7 +76,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             hintText: "Old Password",
                             suffixIcon: IconButton(
                               icon: Icon(
-                                passwordVisible ? Icons.visibility_off : Icons.visibility,
+                                passwordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -85,12 +90,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         ),
                         20.heightSpace,
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+
                           controller: newPassword,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) return "Please confirm password";
-                            if (value != newPassword.text) return "Passwords do not match";
-                            return null;
-                          },
+                          validator:
+                              (value) => Validation.validateResetPassword(
+                                value,
+                                resetValue: newPassword.text,
+                                originalPasswordValue: oldPassword.text,
+                              ),
                           obscureText: !passwordVisible,
                           decoration: InputDecoration(
                             filled: true,
@@ -99,7 +107,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             hintText: "New Password",
                             suffixIcon: IconButton(
                               icon: Icon(
-                                passwordVisible ? Icons.visibility_off : Icons.visibility,
+                                passwordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -118,7 +128,30 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
                         onPressed: () async {
-                          //MessageResponse? resetPasswordResponse = await ApiManager().changePassword(oldPassword.text, newPassword.text);
+                          try {
+                            MessageResponse? resetPasswordResponse =
+                                await ApiManager().changePassword(
+                                  oldPassword.text,
+                                  newPassword.text,
+                                );
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  resetPasswordResponse.message ?? 'blololo',
+                                ),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          } on DioException catch (e) {
+                            final errorMessage =
+                                e.response?.data?['message'] ??
+                                "Something went wrong";
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(errorMessage)),
+                            );
+                          }
                         },
                         style: FilledButton.styleFrom(
                           backgroundColor: AppColors.yellow,

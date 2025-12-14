@@ -30,6 +30,34 @@ class Validation {
     return null;
   }
 
+  static String? validateResetPassword(
+    String? value, {
+    required String? resetValue,
+    required String? originalPasswordValue,
+  }) {
+    if (resetValue == null || resetValue.isEmpty) {
+      return 'Please reset your password';
+    }
+    if (value!.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    if (!value.contains(RegExp(r'[0-9]'))) {
+      return 'Password must contain at least one number';
+    }
+    if (originalPasswordValue == null || originalPasswordValue.isEmpty) {
+      return 'Original password is required first';
+    }
+
+    if (resetValue == originalPasswordValue) {
+      return 'Passwords cannot match';
+    }
+
+    return null;
+  }
+
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Name is required';
@@ -77,7 +105,7 @@ class Validation {
     if (value == null || value.isEmpty) {
       return 'Password is required';
     }
-    if (value.length <= 8) {
+    if (value.length < 8) {
       return 'Password must be at least 8 characters long';
     }
     if (!value.contains(RegExp(r'[A-Z]'))) {
