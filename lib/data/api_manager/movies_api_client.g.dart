@@ -12,7 +12,7 @@ part of 'movies_api_client.dart';
 
 class _MoviesApiClient implements MoviesApiClient {
   _MoviesApiClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://yts.mx/api/v2/';
+    baseUrl ??= 'https://yts.lt/api/v2/';
   }
 
   final Dio _dio;

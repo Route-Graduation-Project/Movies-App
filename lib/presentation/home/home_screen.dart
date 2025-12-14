@@ -1,5 +1,15 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_colors.dart';
+import 'package:movies_app/core/di/di.dart';
+import 'package:movies_app/core/utils/context_extension.dart';
+import 'package:movies_app/core/utils/padding_extension.dart';
+import 'package:movies_app/core/utils/theme_extension.dart';
+import 'package:movies_app/core/utils/white_space_extension.dart';
+import 'package:movies_app/presentation/home/home_cubit/home_cubit.dart';
+import 'package:movies_app/presentation/home/widgets/poster_widget.dart';
+import 'package:movies_app/presentation/movie_details_screen/movie_details_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,235 +19,153 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final posters = [
-    "assets/images/im1.jpg",
-    "assets/images/im2.jpg",
-    "assets/images/im3.png",
-    "assets/images/im4.jpg",
-    "assets/images/im5.jpg",
-  ];
+  HomeCubit cubit = getIt();
+
+  @override
+  void initState() {
+    super.initState();
+    cubit.doAction(SetupHome());
+    cubit.doAction(GetMovieList());
+    cubit.navigation.listen((navigation) {
+      switch (navigation) {
+        case NavigateToMovieDetails():
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MovieDetailsView(movieID: navigation.movieID),
+              ),
+            );
+          }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
-    final height = size.height;
-
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children:[
-            SizedBox(
-              height: height * 0.7,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned.fill(
-                    child: Opacity(
-                      opacity: 0.35,
-                      child: Image.asset(
-                        "assets/images/im3.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            AppColors.black.withOpacity(0.7),
-                            Colors.transparent,
-                            Colors.transparent,
-                            AppColors.black.withOpacity(0.7),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: height * 0.02,
-                    child: Image.asset(
-                      "assets/images/Available Now.png",
-                      width: width * 0.6,
-                    ),
-                  ),
-
-                  Positioned(
-                    top: height * 0.17,
-                    bottom: height * 0.14,
-                    child: SizedBox(
-                      width: width,
-                      child: _scrollingPosters(width),
-                    ),
-                  ),
-
-                  Positioned(
-                    bottom: height * 0.01,
-                    child: Image.asset(
-                      "assets/images/Watch Now.png",
-                      width: width * 0.7,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Action",
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: width * 0.05,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "See More",
-                        style: TextStyle(
-                          color: AppColors.yellow,
-                          fontSize: width * 0.04,
-                        ),
-                      ),
-                      Icon(Icons.arrow_forward,
-                          size: width * 0.045, color: AppColors.yellow)
-                    ],
-                  )
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            SizedBox(
-              height: height * 0.26,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.only(left: width * 0.04),
-                children: posters.map((e) => movieCard(e, width)).toList(),
-              ),
-            ),
-
-            const SizedBox(height: 70),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget _scrollingPosters(double width) {
-    final PageController controller =
-    PageController(viewportFraction: 0.54, initialPage: 1);
-
-    return PageView.builder(
-      controller: controller,
-      itemCount: posters.length,
-      itemBuilder: (context, index) {
-        return AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) {
-            double scale = 0.7;
-
-            if (controller.position.haveDimensions) {
-              double value = (controller.page! - index).abs();
-              scale = (1 - value * 0.3).clamp(0.0, 1.0);
-            }
-
-            return Center(
-              child: Transform.scale(
-                scale: scale,
-                child: Stack(
-                  children: [
-                    Container(
-                      width: width * 0.55,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        image: DecorationImage(
-                          image: AssetImage(posters[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-
-                    Positioned(
-                      top: 8,
-                      left: 8,
-                      child: Container(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: const [
-                            Text(
-                              "7.7",
-                              style:
-                              TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(Icons.star,
-                                color: Colors.yellow, size: 14),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-
-  Widget movieCard(String img, double width) {
-    return Stack(
-      children: [
-        Container(
-          width: width * 0.36,
-          margin: const EdgeInsets.only(right: 15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
+    return BlocProvider.value(
+      value: cubit,
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/image_5.png"),
+            fit: BoxFit.cover,
           ),
         ),
-
-        // ⭐ RATING
-        Positioned(
-          top: 8,
-          left: 8,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
-              borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF2A2C30).withAlpha(70),
+                const Color(0xFF2A2C30),
+              ],
             ),
-            child: Row(
-              children: const [
-                Text(
-                  "7.7",
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+          ),
+          child: SafeArea(
+            child: ListView(
+              children: [
+                // image Available Now
+                Container(
+                  height: context.heightSize * 0.14,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Available Now.png"),
+                    ),
+                  ),
                 ),
-                SizedBox(width: 4),
-                Icon(Icons.star, color: Colors.yellow, size: 14),
+                BlocBuilder<HomeCubit, HomeState>(
+                  builder: (_, state) {
+                    if (state.isMovieOfDateLoading) {
+                      return SizedBox(
+                        height: context.heightSize * 0.34,
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    } else {
+                      return CarouselSlider(
+                        items:
+                            state.moviesSortedByDate!
+                                .map(
+                                  (movie) => InkWell(
+                                    onTap: () {
+                                      cubit.doAction(GoToDetailsScreenAction(movie.id));
+                                    },
+                                    child: PosterWidget(movie: movie),
+                                  ),
+                                )
+                                .toList(),
+                        options: CarouselOptions(
+                          height: context.heightSize * 0.35,
+                          enableInfiniteScroll: true,
+                          viewportFraction: 0.47,
+                          animateToClosest: true,
+                          enlargeCenterPage: true,
+                          initialPage: 0,
+                        ),
+                      );
+                    }
+                  },
+                ),
+                Container(
+                  height: context.heightSize * 0.14,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Watch Now.png"),
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  height: context.heightSize * 0.35,
+                  child: BlocBuilder<HomeCubit, HomeState>(
+                    builder: (_, state) {
+                      if (state.isMovieOfGenresLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  state.genres[state.indexOfGenres!],
+                                  style: context.textStyle.bodyLarge!.copyWith(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                                const Spacer(),
+                                const Text("See More"),
+                              ],
+                            ).horizontalPadding(16),
+                            Expanded(
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                itemBuilder:
+                                    (_, index) => InkWell(
+                                      onTap:(){
+                                        cubit.doAction(GoToDetailsScreenAction(state.moviesSortedByGenres![index].id));
+                                      },
+                                      child: PosterWidget(
+                                        movie: state.moviesSortedByGenres![index],
+                                      ),
+                                    ),
+                                separatorBuilder: (_, _) => 15.widthSpace,
+                                itemCount: state.moviesSortedByGenres!.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/app_colors.dart';
+import 'package:movies_app/core/utils/padding_extension.dart';
 
 import 'package:movies_app/presentation/home/home_screen.dart';
 import 'package:movies_app/presentation/profile/profile_screen.dart';
@@ -26,25 +27,23 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: AppColors.black,
       body: screens[currentIndex],
 
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 2),
-        decoration: BoxDecoration(
-          color: AppColors.gray,
-          borderRadius: BorderRadius.circular(20),
-        ),
-
+      bottomNavigationBar: SafeArea(
+        bottom: true,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           child: BottomNavigationBar(
+            unselectedFontSize: 0,
+            selectedFontSize: 0,
             backgroundColor: AppColors.gray,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: AppColors.yellow,
             unselectedItemColor: AppColors.white,
             currentIndex: currentIndex,
-
+            elevation: 0,
             onTap: (index) {
               setState(() {
                 currentIndex = index;
@@ -70,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ],
           ),
-        ),
+        ).horizontalPadding(16),
       ),
     );
   }

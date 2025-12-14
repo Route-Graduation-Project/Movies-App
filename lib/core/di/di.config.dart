@@ -26,6 +26,7 @@ import '../../domain/repository/firebase_data_source.dart' as _i158;
 import '../../domain/repository/movies_api_remote_data.dart' as _i1024;
 import '../../domain/repository/movies_repository.dart' as _i231;
 import '../../domain/use_case/use_case.dart' as _i719;
+import '../../presentation/home/home_cubit/home_cubit.dart' as _i748;
 import '../../presentation/movie_details_screen/cubit/movie_details_cubit.dart'
     as _i941;
 import '../../presentation/on_boarding/cubit/onboarding_cubit.dart' as _i815;
@@ -40,6 +41,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.factory<_i719.UseCase>(() => _i719.UseCase());
+    gh.factory<_i748.HomeCubit>(() => _i748.HomeCubit());
     gh.factory<_i941.MovieDetailsCubit>(() => _i941.MovieDetailsCubit());
     gh.factory<_i815.OnboardingCubit>(() => _i815.OnboardingCubit());
     gh.lazySingleton<_i361.Dio>(() => dioModule.sharedDio());
