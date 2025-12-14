@@ -1,5 +1,5 @@
+import 'package:movies_app/core/di/di.dart';
 import 'package:movies_app/data/api_manager/movies_api_client.dart';
-import 'package:movies_app/data/api_manager/shared_dio.dart';
 import 'package:movies_app/data/mappers/movies_detail_entity_mapper.dart';
 import 'package:movies_app/data/mappers/movies_suggestion_mapper.dart';
 import 'package:movies_app/data/models/movie_model.dart';
@@ -11,7 +11,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   late final MoviesApiClient _apiClient;
 
   MoviesRemoteDataSourceImpl() {
-    _apiClient = MoviesApiClient(sharedDio());
+    _apiClient = MoviesApiClient(getIt());
   }
 
   @override

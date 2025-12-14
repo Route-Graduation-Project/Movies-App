@@ -8,7 +8,7 @@ import 'package:retrofit/retrofit.dart';
 part 'movies_api_client.g.dart';
 
 @singleton
-@RestApi(baseUrl: "https://yts.mx/api/v2/")
+@RestApi(baseUrl: "https://yts.lt/api/v2/")
 abstract class MoviesApiClient {
   @factoryMethod
   factory MoviesApiClient(Dio dio) = _MoviesApiClient;

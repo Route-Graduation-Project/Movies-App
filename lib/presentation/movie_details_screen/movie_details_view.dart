@@ -17,9 +17,9 @@ import 'package:movies_app/presentation/movie_details_screen/widgets/watch_movie
 
 
 class MovieDetailsView extends StatefulWidget {
-  MovieDetailsView({this.movieID, super.key});
+  const MovieDetailsView({required this.movieID, super.key});
 
-  final int? movieID;
+  final int movieID;
 
   @override
   State<MovieDetailsView> createState() => _MovieDetailsViewState();
@@ -31,7 +31,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
     super.initState();
 
     cubit.doAction(Setup());
-    cubit.doAction(GetMovieDetails(widget.movieID ?? 10));
+    cubit.doAction(GetMovieDetails(widget.movieID));
     cubit.navigation.listen((navigation) {
       switch (navigation) {
         case NavigateToMovieDetails():
@@ -39,7 +39,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => MovieDetailsView(movieID: navigation.movieId),
+                builder: (_) => MovieDetailsView(movieID: navigation.movieId!),
               ),
             );
           }
@@ -266,7 +266,8 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                   ).horizontalPadding(16),
 
                   SizedBox(
-                    height: context.heightSize * 0.67,
+                    // determine the height based on the count of suggested movie depend on the height of the image (30% of height screen)
+                    height: state.movieSuggestions!.length > 2 ? context.heightSize * 0.67 : context.heightSize * 0.34,
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       padding: const EdgeInsets.all(16),
@@ -277,7 +278,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                             crossAxisSpacing: 16,
                             mainAxisSpacing: 16,
                           ),
-                      itemCount: 4,
+                      itemCount: state.movieSuggestions!.length>4? 4 : state.movieSuggestions!.length,
                       itemBuilder:
                           (context, index) => SuggestedMovieWidget(
                             movieSuggestion: state.movieSuggestions![index],
@@ -298,7 +299,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
 
                   10.heightSpace,
                   Text(
-                    state.descriptionFull!,
+                    state.descriptionFull == "" || state.descriptionFull == null ? "There is no summary of this movie" : state.descriptionFull!,
                     style: context.textStyle.bodyMedium!.copyWith(
                       color: AppColors.white,
                     ),

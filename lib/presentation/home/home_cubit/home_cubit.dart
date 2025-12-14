@@ -1,29 +1,68 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/data/data_source/movies_remote_data_source_impl.dart';
-import 'package:movies_app/data/repository_imp/movies_repository_impl.dart';
+import 'dart:math';
+import 'package:injectable/injectable.dart';
+import 'package:movies_app/core/base/base_cubit.dart';
+import 'package:movies_app/core/di/di.dart';
 import 'package:movies_app/domain/entity/movie_entity.dart';
-import 'package:movies_app/domain/repository/movies_repository.dart';
-
+import 'package:movies_app/domain/use_case/use_case.dart';
 part 'home_state.dart';
 
-HomeCubit injectionHomeCubit() {
-  return HomeCubit(
-    moviesRepository: MoviesRepositoryImpl(MoviesRemoteDataSourceImpl()),
-  );
-}
 
-class HomeCubit extends Cubit<HomeState> {
-  final MoviesRepository moviesRepository;
+@injectable
+class HomeCubit extends BaseCubit<HomeState, HomeAction, NavigationHome> {
+  HomeCubit() : super(HomeState());
 
-  HomeCubit({required this.moviesRepository}) : super(HomeInitial());
+  UseCase useCase = getIt();
 
-  Future<void> getPopularMovies() async {
-    emit(HomeLoading());
-    try {
-      final movies = await moviesRepository.getMovies();
-      emit(HomeSuccess(movies));
-    } catch (e) {
-      emit(HomeError(e.toString()));
+  @override
+  Future<void> doAction(HomeAction action) async{
+    switch (action) {
+      case SetupHome():{
+        _setup();
+      }
+      case GetMovieList():{
+        _getMovie();
+      }
+      case GoToDetailsScreenAction():{
+        _goToDetailsScreen(action.movieId);
+      }
     }
   }
+
+
+  void _setup(){
+    emit(state.copyWith(isMovieOfDateLoading: true,isMovieOfGenresLoading: true));
+  }
+
+  Future<void> _getMovie()async{
+    try{
+      int indexOfGenres = Random().nextInt(state.genres.length+1);
+      print(indexOfGenres);
+      var responseOfSortedMovieByDate = await useCase.getMovie(
+        sortBy: "date_added",
+        orderBy: "desc",
+      );
+      var responseOfSortedMovieByGenres = await useCase.getMovie(
+        genre: state.genres[indexOfGenres],
+      );
+
+
+      emit(state.copyWith(
+        moviesSortedByDate: responseOfSortedMovieByDate,
+        moviesSortedByGenres: responseOfSortedMovieByGenres,
+        indexOfGenres: indexOfGenres
+      ));
+
+    }
+    catch(e){
+      rethrow;
+    }
+    finally{
+      emit(state.copyWith(isMovieOfDateLoading: false, isMovieOfGenresLoading: false));
+    }
+  }
+
+  void _goToDetailsScreen(int movieId){
+    emitNavigation(NavigateToMovieDetails(movieId));
+  }
+
 }
