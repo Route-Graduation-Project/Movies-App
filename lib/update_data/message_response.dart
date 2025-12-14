@@ -9,7 +9,6 @@ class MessageResponse {
     if (msg is String) {
       message = msg;
     } else if (msg is List) {
-      // join list messages into a single readable string
       message = msg.join(', ');
     } else {
       message = null;
