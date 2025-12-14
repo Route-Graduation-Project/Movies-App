@@ -5,7 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'profile_response.dart';
 
 class ApiManager {
-  String url = "https://route-movie-apis.vercel.app/profile";
+  String updateUrl = "https://route-movie-apis.vercel.app/profile";
+  String resetPasswordUrl = "https://route-movie-apis.vercel.app/auth/reset-password";
+
   late String token;
 
   Future<void> _getToken() async {
@@ -22,7 +24,7 @@ class ApiManager {
     await _getToken();
     Dio dio = Dio();
     final response = await dio.get(
-      url,
+      updateUrl,
       options: Options(headers: {"Authorization": "Bearer $token"}),
     );
 
@@ -40,7 +42,7 @@ class ApiManager {
       if (avatarId != null) 'avaterId': avatarId,
     };
     var response = await dio.patch(
-      url,
+      updateUrl,
       data: body,
       options: Options(headers: {"Authorization": "Bearer $token"}),
     );
@@ -53,10 +55,27 @@ class ApiManager {
     await _getToken();
     Dio dio = Dio();
     var response = await dio.delete(
-      url,
+      updateUrl,
       options: Options(headers: {"Authorization": "Bearer $token"}),
     );
     await _deleteToken();
+
+    MessageResponse messageResponse = MessageResponse.fromJson(response.data);
+    return messageResponse;
+  }
+
+  Future<MessageResponse> changePassword(oldPassword, newPassword) async {
+    await _getToken();
+    Dio dio = Dio();
+    final body = {
+      'oldPassword': oldPassword,
+      'newPassword': newPassword,
+    };
+    var response = await dio.delete(
+      resetPasswordUrl,
+      data: body,
+      options: Options(headers: {"Authorization": "Bearer $token"}),
+    );
 
     MessageResponse messageResponse = MessageResponse.fromJson(response.data);
     return messageResponse;

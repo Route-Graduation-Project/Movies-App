@@ -14,6 +14,7 @@ abstract class Routes {
   static const String profileRoute = "/profile";
   static const String mainRoute = "/main";
   static const String movieDetailsRoute = '/movieDetails';
+  static const String resetPasswordRoute = '/resetPassword';
 
 
 }

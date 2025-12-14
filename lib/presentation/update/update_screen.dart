@@ -98,7 +98,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, Routes.resetPasswordRoute);
+                            },
                             child: const Text("Reset Password"),
                           ),
                         ),
