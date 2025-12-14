@@ -139,7 +139,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  resetPasswordResponse.message ?? 'blololo',
+                                  resetPasswordResponse.message ?? 'Something went wrong',
                                 ),
                               ),
                             );
