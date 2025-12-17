@@ -78,7 +78,7 @@ abstract class AppRoutes {
       case Routes.profileRoute:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => const ProfileScreen(),
+          builder: (_) => ProfileScreen(),
         );
       case Routes.mainRoute:
         return MaterialPageRoute(
