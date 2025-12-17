@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:movies_app/core/app_colors.dart';
 import '../../core/routing/routes.dart';
+import '../home/widgets/poster_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final int wishListCount = 12;
-  final int historyListCount = 10;
+  final List<PosterWidget> historyList = const [];
+  final List<PosterWidget> watchList = const [];
 
   const ProfileScreen({super.key});
 
@@ -16,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
       body: MediaQuery.removePadding(
         context: context,
         removeTop: true,
+        removeBottom: true,
         child: ListView(
           children: [
             Container(
@@ -23,11 +25,7 @@ class ProfileScreen extends StatelessWidget {
               width: double.infinity,
               decoration: const BoxDecoration(color: AppColors.gray),
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 64,
-                ),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 64),
                 child: Column(
                   spacing: 16,
                   children: [
@@ -55,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                           spacing: 16,
                           children: [
                             Text(
-                              wishListCount.toString(),
+                              watchList.length.toString(),
                               style: const TextStyle(
                                 color: AppColors.white,
                                 fontSize: 32,
@@ -76,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                           spacing: 16,
                           children: [
                             Text(
-                              historyListCount.toString(),
+                              historyList.length.toString(),
                               style: const TextStyle(
                                 color: AppColors.white,
                                 fontSize: 32,
@@ -141,6 +139,92 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+            DefaultTabController(
+              initialIndex: 0,
+              length: 2,
+              child: Column(
+                children: [
+                  Container(
+                    height: size.height * 0.1,
+                    decoration: const BoxDecoration(color: AppColors.gray),
+                    child: const TabBar(
+                      dividerHeight: 0,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorWeight: 3,
+                      labelStyle: TextStyle(
+                        fontSize: 20,
+                        color: AppColors.white,
+                      ),
+                      unselectedLabelStyle: TextStyle(fontSize: 20),
+                      tabs: [
+                        Tab(
+                          icon: Icon(
+                            Icons.list,
+                            size: 40,
+                            color: AppColors.yellow,
+                          ),
+                          text: "Watch List",
+                        ),
+                        Tab(
+                          icon: Icon(
+                            Icons.folder,
+                            size: 40,
+                            color: AppColors.yellow,
+                          ),
+                          text: "History",
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.88,
+                    child: TabBarView(
+                      children: [
+                        Center(child: Image.asset("assets/images/Empty 1.png")),
+                        (watchList.isEmpty)
+                            ? Center(
+                          child: Image.asset("assets/images/Empty 1.png"),
+                        )
+                            : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GridView.builder(
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                            ),
+                            itemBuilder: (context, index) {
+                              return watchList[index];
+                            },
+                            itemCount: watchList.length,
+                          ),
+                        ),
+                        (historyList.isEmpty)
+                            ? Center(
+                              child: Image.asset("assets/images/Empty 1.png"),
+                            )
+                            : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 16,
+                                      mainAxisSpacing: 16,
+                                    ),
+                                itemBuilder: (context, index) {
+                                  return historyList[index];
+                                },
+                                itemCount: historyList.length,
+                              ),
+                            ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
