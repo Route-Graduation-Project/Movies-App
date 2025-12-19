@@ -6,7 +6,6 @@ import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/data/models/register_request.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/api_remote_data.dart';
-
 import '../../core/di/di.dart';
 
 @Injectable(as: ApiRemoteData)
@@ -14,10 +13,8 @@ class ApiRemoteImpl implements ApiRemoteData {
   ApiClient apiClient = ApiClient(getIt());
 
   @override
-  Future<LoginResponse> loginWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<LoginResponse> loginWithEmailAndPassword(String email,
+      String password,) async {
     try {
       var response = await apiClient.loginWithEmailAndPassword(
         LoginRequest(email: email, password: password),

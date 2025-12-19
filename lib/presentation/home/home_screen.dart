@@ -85,11 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         items:
                             state.moviesSortedByDate!
                                 .map(
-                                  (movie) => InkWell(
-                                    onTap: () {
-                                      cubit.doAction(GoToDetailsScreenAction(movie.id));
+                                  (movie) => PosterWidget(
+                                    movie: movie,
+                                    movieTap: (id) {
+                                      cubit.doAction(
+                                        GoToDetailsScreenAction(id),
+                                      );
                                     },
-                                    child: PosterWidget(movie: movie),
                                   ),
                                 )
                                 .toList(),
@@ -141,13 +143,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   horizontal: 16,
                                 ),
                                 itemBuilder:
-                                    (_, index) => InkWell(
-                                      onTap:(){
-                                        cubit.doAction(GoToDetailsScreenAction(state.moviesSortedByGenres![index].id));
+                                    (_, index) => PosterWidget(
+                                      movie: state.moviesSortedByGenres![index],
+                                      movieTap: (id) {
+                                        cubit.doAction(
+                                          GoToDetailsScreenAction(id),
+                                        );
                                       },
-                                      child: PosterWidget(
-                                        movie: state.moviesSortedByGenres![index],
-                                      ),
                                     ),
                                 separatorBuilder: (_, _) => 15.widthSpace,
                                 itemCount: state.moviesSortedByGenres!.length,
