@@ -14,6 +14,7 @@ abstract class DioModule{
       receiveTimeout: const Duration(seconds: 120),
       connectTimeout: const Duration(seconds: 120),
       sendTimeout: const Duration(seconds: 120),
+
     );
     dio.interceptors.add(
       PrettyDioLogger(
