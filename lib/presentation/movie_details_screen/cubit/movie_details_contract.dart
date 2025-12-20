@@ -20,6 +20,7 @@ class MovieDetailsState {
   List<MoviesSuggestionEntity>? movieSuggestions;
 
   bool isLoading;
+  bool isFavorite;
 
   MovieDetailsState({
     this.id,
@@ -38,6 +39,7 @@ class MovieDetailsState {
     this.cast,
     this.movieSuggestions,
     this.isLoading = false,
+    this.isFavorite = false,
   });
 
   MovieDetailsState copyWith({
@@ -57,6 +59,7 @@ class MovieDetailsState {
     List<CastEntity>? cast,
     List<MoviesSuggestionEntity>? movieSuggestions,
     bool loading = false,
+    bool? favorite,
   }) {
     return MovieDetailsState(
       id: id ?? this.id,
@@ -78,13 +81,34 @@ class MovieDetailsState {
       cast: cast ?? this.cast,
       movieSuggestions: movieSuggestions ?? this.movieSuggestions,
       isLoading: loading,
+      isFavorite: favorite ?? isFavorite,
     );
   }
 }
 
 sealed class MovieDetailsActions {}
 
-class Setup extends MovieDetailsActions{}
+class Setup extends MovieDetailsActions {}
+
+class RemoveMovieFromFavorite extends MovieDetailsActions {
+  String movieId;
+  RemoveMovieFromFavorite(this.movieId);
+}
+
+class AddMovieToFavorite extends MovieDetailsActions {
+  String name;
+  double rating;
+  String imageURL;
+  String year;
+  String movieId;
+  AddMovieToFavorite(
+    this.imageURL,
+    this.name,
+    this.rating,
+    this.year,
+    this.movieId,
+  );
+}
 
 class GetMovieDetails extends MovieDetailsActions {
   int movieID;
@@ -92,16 +116,13 @@ class GetMovieDetails extends MovieDetailsActions {
   GetMovieDetails(this.movieID);
 }
 
-
 class GoToMovieSuggestion extends MovieDetailsActions {
   int movieID;
 
   GoToMovieSuggestion(this.movieID);
 }
 
-class GoBack extends MovieDetailsActions {
-
-}
+class GoBack extends MovieDetailsActions {}
 
 class WatchMovie extends MovieDetailsActions {
   String url;
@@ -116,9 +137,7 @@ class NavigateToMovieDetails extends MovieDetailsNavigation {
   NavigateToMovieDetails(this.movieId);
 }
 
-class NavigateToBack extends MovieDetailsNavigation {
-
-}
+class NavigateToBack extends MovieDetailsNavigation {}
 
 class NavigateToWatchMovie extends MovieDetailsNavigation {
   String url;

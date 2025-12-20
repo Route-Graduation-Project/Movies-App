@@ -45,7 +45,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
           }
         case NavigateToBack():
           {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           }
         case NavigateToWatchMovie():
           {
@@ -88,9 +88,18 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                 actions: [
                   IconButton(
                     onPressed: () async {
-                      // todo add movie to favorite list
+                      await _addToFavoriteFunctionality(state);
                     },
-                    icon: const Icon(Icons.bookmark, color: AppColors.white),
+                    icon:
+                        state.isLoading
+                            ? const CircularProgressIndicator()
+                            : Icon(
+                              Icons.bookmark,
+                              color:
+                                  state.isFavorite
+                                      ? AppColors.yellow
+                                      : AppColors.white,
+                            ),
                   ),
                 ],
               ),
@@ -204,7 +213,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                               20.widthSpace,
                               Expanded(
                                 child: Container(
-                                  padding: EdgeInsets.all(12),
+                                  padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: AppColors.gray,
@@ -367,6 +376,21 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                         ],
                       ),
             ),
+      ),
+    );
+  }
+
+  Future<void> _addToFavoriteFunctionality(MovieDetailsState state) async {
+    if (cubit.state.isFavorite) {
+      await cubit.doAction(RemoveMovieFromFavorite(state.id.toString()));
+    }
+    await cubit.doAction(
+      AddMovieToFavorite(
+        state.mediumScreenshotImage1 ?? "assets/images/play_icon.png",
+        state.title ?? '',
+        state.rating ?? 0,
+        state.year.toString(),
+        state.id.toString(),
       ),
     );
   }
