@@ -30,6 +30,7 @@ import '../../presentation/home/home_cubit/home_cubit.dart' as _i748;
 import '../../presentation/movie_details_screen/cubit/movie_details_cubit.dart'
     as _i941;
 import '../../presentation/on_boarding/cubit/onboarding_cubit.dart' as _i815;
+import '../../presentation/profile/cubit/profile_cubit.dart' as _i107;
 import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -44,6 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i748.HomeCubit>(() => _i748.HomeCubit());
     gh.factory<_i941.MovieDetailsCubit>(() => _i941.MovieDetailsCubit());
     gh.factory<_i815.OnboardingCubit>(() => _i815.OnboardingCubit());
+    gh.factory<_i107.ProfileCubit>(() => _i107.ProfileCubit());
     gh.lazySingleton<_i361.Dio>(() => dioModule.sharedDio());
     gh.singleton<_i686.ApiClient>(() => _i686.ApiClient.new(gh<_i361.Dio>()));
     gh.singleton<_i959.MoviesApiClient>(

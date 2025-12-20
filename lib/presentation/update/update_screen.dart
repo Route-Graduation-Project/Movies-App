@@ -23,7 +23,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -82,7 +81,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             filled: true,
                             fillColor: AppColors.gray,
                             prefixIcon: const Icon(Icons.person),
-                            hintText: profileInfo?.data?.name?.toString() ?? "User Name",
+                            hintText:
+                                profileInfo?.data?.name?.toString() ??
+                                "User Name",
                           ),
                         ),
                         20.heightSpace,
@@ -92,14 +93,19 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             filled: true,
                             fillColor: AppColors.gray,
                             prefixIcon: const Icon(Icons.phone),
-                            hintText: profileInfo?.data?.phone?.toString() ?? "Phone Number",
+                            hintText:
+                                profileInfo?.data?.phone?.toString() ??
+                                "Phone Number",
                           ),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, Routes.resetPasswordRoute);
+                              Navigator.pushNamed(
+                                context,
+                                Routes.resetPasswordRoute,
+                              );
                             },
                             child: const Text("Reset Password"),
                           ),
@@ -113,12 +119,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
                         onPressed: () async {
-                          MessageResponse response = await ApiManager().deleteProfile();
+                          MessageResponse response =
+                              await ApiManager().deleteProfile();
                           Navigator.pushNamed(context, Routes.loginRoute);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                response.message ?? "Profile Deleted Successfully",
+                                response.message ??
+                                    "Profile Deleted Successfully",
                               ),
                               backgroundColor: Colors.green,
                             ),
@@ -145,24 +153,35 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: FilledButton(
                         onPressed: () async {
-                          final newName = name.text.isNotEmpty ? name.text : profileInfo?.data?.name;
-                          final newPhone = phone.text.isNotEmpty ? phone.text : profileInfo?.data?.phone;
-                          final newAvatarId = selectedAvatarId ?? profileInfo?.data?.avaterId?.toInt();
+                          final newName =
+                              name.text.isNotEmpty
+                                  ? name.text
+                                  : profileInfo?.data?.name;
+                          final newPhone =
+                              phone.text.isNotEmpty
+                                  ? phone.text
+                                  : profileInfo?.data?.phone;
+                          final newAvatarId =
+                              selectedAvatarId ??
+                              profileInfo?.data?.avaterId?.toInt();
 
-                          MessageResponse response = await ApiManager().updateProfile(
-                            name: newName,
-                            phone: newPhone,
-                            avatarId: newAvatarId,
-                          );
+                          MessageResponse response = await ApiManager()
+                              .updateProfile(
+                                name: newName,
+                                phone: newPhone,
+                                avatarId: newAvatarId,
+                              );
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                response.message ?? "Profile Updated Successfully",
+                                response.message ??
+                                    "Profile Updated Successfully",
                               ),
                               backgroundColor: Colors.green,
                             ),
                           );
+                          Navigator.pop(context, true);
                         },
                         child: const Text(
                           "Update Data",

@@ -1,11 +1,12 @@
 part of 'home_cubit.dart';
 
 class HomeState {
-
   bool isMovieOfDateLoading;
   bool isMovieOfGenresLoading;
+  Set<int> clickedMovieIds;
   List<MovieEntity>? moviesSortedByDate;
   List<MovieEntity>? moviesSortedByGenres;
+
   List<String> genres = [
     'Comedy',
     'Romance',
@@ -24,8 +25,7 @@ class HomeState {
     'Sport',
     'Adventure',
   ];
-  int? indexOfGenres ;
-
+  int? indexOfGenres;
 
   HomeState({
     this.isMovieOfDateLoading = false,
@@ -33,7 +33,8 @@ class HomeState {
     this.moviesSortedByDate,
     this.moviesSortedByGenres,
     this.indexOfGenres = 0,
-  });
+    Set<int>? clickedMovieIds,
+  }) : clickedMovieIds = clickedMovieIds ?? {};
 
   HomeState copyWith({
     List<MovieEntity>? moviesSortedByDate,
@@ -41,6 +42,7 @@ class HomeState {
     bool isMovieOfDateLoading = false,
     bool isMovieOfGenresLoading = false,
     int? indexOfGenres,
+    Set<int>? clickedMovieIds,
   }) {
     return HomeState(
       moviesSortedByDate: moviesSortedByDate ?? this.moviesSortedByDate,
@@ -48,27 +50,25 @@ class HomeState {
       isMovieOfGenresLoading: isMovieOfGenresLoading,
       isMovieOfDateLoading: isMovieOfDateLoading,
       indexOfGenres: indexOfGenres ?? this.indexOfGenres,
+      clickedMovieIds: clickedMovieIds ?? this.clickedMovieIds,
     );
   }
 }
 
-sealed class HomeAction{}
+sealed class HomeAction {}
 
-class SetupHome extends HomeAction{}
+class SetupHome extends HomeAction {}
 
-class GetMovieList extends HomeAction{}
+class GetMovieList extends HomeAction {}
 
-class GoToDetailsScreenAction extends HomeAction{
+class GoToDetailsScreenAction extends HomeAction {
   int movieId;
   GoToDetailsScreenAction(this.movieId);
 }
 
+sealed class NavigationHome {}
 
-sealed class NavigationHome{}
-
-class NavigateToMovieDetails extends NavigationHome{
+class NavigateToMovieDetails extends NavigationHome {
   int movieID;
   NavigateToMovieDetails(this.movieID);
 }
-
-
