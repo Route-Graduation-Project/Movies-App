@@ -5,14 +5,14 @@ class ProfileState {
   num? avatarId;
   int? wishListNumber;
   bool isLoading;
-  List<MovieEntity>? movies;
+  List<MovieEntity> movies;
   ProfileState({
     this.wishListNumber,
     this.name,
     this.avatarId,
-    this.movies,
+    List<MovieEntity>? movies,
     this.isLoading = false,
-  });
+  }): movies = movies ?? const [];
   ProfileState copyWith({
     String? name,
     num? avatarID,
@@ -22,10 +22,10 @@ class ProfileState {
   }) {
     return ProfileState(
       avatarId: avatarID ?? avatarId,
-      name: name ?? name,
+      name: name ?? this.name,
       isLoading: isLoading,
       wishListNumber: wishListNumber,
-      movies: movies ?? [],
+      movies: movies ?? this.movies,
     );
   }
 }

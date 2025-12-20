@@ -67,10 +67,10 @@ class HomeCubit extends BaseCubit<HomeState, HomeAction, NavigationHome> {
   }
 
   void _goToDetailsScreen(int movieId) {
-    if (!state.clickedMovieIds!.contains(movieId)) {
+    if (!state.clickedMovieIds.contains(movieId)) {
       emit(
         state.copyWith(
-          clickedMovieIds: Set<int>.from(state.clickedMovieIds!)..add(movieId),
+          clickedMovieIds: Set<int>.from(state.clickedMovieIds)..add(movieId),
         ),
       );
     }

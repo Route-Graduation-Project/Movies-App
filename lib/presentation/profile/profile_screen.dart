@@ -45,10 +45,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     });
 
-    cubit.navigation.listen((event) {
+    cubit.navigation.listen((event) async {
       switch (event) {
         case NavigateToEditProfile():
-          () async {
+          {
             final result = await Navigator.pushNamed(
               context,
               Routes.updateRoute,
@@ -57,7 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (result == true) {
               cubit.doAction(GetProfileData());
             }
-          };
+          }
+          {}
         case LogoutNavigation():
           {
             Navigator.pushNamedAndRemoveUntil(
@@ -78,12 +79,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           final historyMovies =
-              state.movies!
+              (cubitHome.state.moviesSortedByDate ?? [])
                   .where(
                     (movie) =>
-                        cubitHome.state.clickedMovieIds!.contains(movie.id),
+                        cubitHome.state.clickedMovieIds.contains(movie.id),
                   )
                   .toList();
+          final historyMoviesSorted = [...historyMovies]
+            ..sort((a, b) => b.id.compareTo(a.id));
+
           return state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : DefaultTabController(
@@ -268,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           MovieList(
                             movies:
                                 state.movies
-                                    ?.map(
+                                    .map(
                                       (e) => PosterWidget(
                                         movieTap: (id) {
                                           cubitHome.doAction(
@@ -283,12 +287,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                       ),
                                     )
-                                    .toList() ??
-                                [],
+                                    .toList(),
                           ),
                           MovieList(
                             movies:
-                                historyMovies
+                                historyMoviesSorted
                                     .map(
                                       (e) => PosterWidget(
                                         movieTap: (id) {

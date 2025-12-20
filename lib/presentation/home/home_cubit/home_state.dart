@@ -3,7 +3,7 @@ part of 'home_cubit.dart';
 class HomeState {
   bool isMovieOfDateLoading;
   bool isMovieOfGenresLoading;
-  Set<int>? clickedMovieIds;
+  Set<int> clickedMovieIds;
   List<MovieEntity>? moviesSortedByDate;
   List<MovieEntity>? moviesSortedByGenres;
 
@@ -33,8 +33,8 @@ class HomeState {
     this.moviesSortedByDate,
     this.moviesSortedByGenres,
     this.indexOfGenres = 0,
-    this.clickedMovieIds,
-  });
+    Set<int>? clickedMovieIds,
+  }) : clickedMovieIds = clickedMovieIds ?? {};
 
   HomeState copyWith({
     List<MovieEntity>? moviesSortedByDate,
@@ -42,7 +42,7 @@ class HomeState {
     bool isMovieOfDateLoading = false,
     bool isMovieOfGenresLoading = false,
     int? indexOfGenres,
-    Set<int>? clickedMovieIds = const {},
+    Set<int>? clickedMovieIds,
   }) {
     return HomeState(
       moviesSortedByDate: moviesSortedByDate ?? this.moviesSortedByDate,
