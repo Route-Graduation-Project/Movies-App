@@ -9,6 +9,7 @@ import 'package:movies_app/domain/entity/add_movie_to_favorite_entity.dart';
 import 'package:movies_app/domain/entity/movie_details_entity.dart';
 import 'package:movies_app/domain/entity/movie_entity.dart';
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
+import 'package:movies_app/domain/entity/search_entity.dart';
 import 'package:movies_app/domain/repository/movies_api_remote_data.dart';
 import 'package:movies_app/domain/repository/movies_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -154,7 +155,7 @@ class MovieRepoImpl implements MoviesRepository {
           movieId,
           "Bearer $token",
         );
-        return response.message??"";
+        return response.message ?? "";
       } else {
         throw ("There is no connection. Check the connection and try again");
       }
@@ -164,7 +165,7 @@ class MovieRepoImpl implements MoviesRepository {
   }
 
   @override
-  Future<bool> isMovieInFavList(String movieId) async{
+  Future<bool> isMovieInFavList(String movieId) async {
     bool connected = await _isConnected();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString("token");
@@ -174,7 +175,22 @@ class MovieRepoImpl implements MoviesRepository {
           movieId,
           "Bearer $token",
         );
-        return response.data??false;
+        return response.data ?? false;
+      } else {
+        throw ("There is no connection. Check the connection and try again");
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<SearchEntity>> searchMovie(String query) async {
+    bool connected = await _isConnected();
+    try {
+      if (connected) {
+        var response = await _moviesApiData.searchMovie(query);
+        return response;
       } else {
         throw ("There is no connection. Check the connection and try again");
       }

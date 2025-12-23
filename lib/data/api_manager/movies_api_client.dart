@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:movies_app/data/models/movie_details_response.dart';
 import 'package:movies_app/data/models/movie_list_response.dart';
 import 'package:movies_app/data/models/movie_suggestions_response.dart';
+import 'package:movies_app/data/models/search_response/search_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'movies_api_client.g.dart';
@@ -36,4 +37,7 @@ abstract class MoviesApiClient {
   Future<MovieSuggestionsResponse> getMovieSuggestions(
     @Query("movie_id") int movieId,
   );
+
+  @GET("list_movies.json")
+  Future<SearchResponse> getSearchResults(@Query('query_term') String query);
 }

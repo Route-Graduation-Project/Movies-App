@@ -6,12 +6,14 @@ import 'package:movies_app/data/mappers/add_movie_to_favorite_mapper.dart';
 import 'package:movies_app/data/mappers/movie_mapper.dart';
 import 'package:movies_app/data/mappers/movies_detail_entity_mapper.dart';
 import 'package:movies_app/data/mappers/movies_suggestion_mapper.dart';
+import 'package:movies_app/data/mappers/search_mapper.dart';
 import 'package:movies_app/data/models/favorite_movies/add_favorite_movie_request.dart';
 import 'package:movies_app/data/models/favorite_movies/get_favorite_movies_response.dart';
 import 'package:movies_app/domain/entity/add_movie_to_favorite_entity.dart';
 import 'package:movies_app/domain/entity/movie_details_entity.dart';
 import 'package:movies_app/domain/entity/movie_entity.dart';
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
+import 'package:movies_app/domain/entity/search_entity.dart';
 import 'package:movies_app/domain/repository/movies_api_remote_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -147,6 +149,18 @@ class MoviesApiRemoteImpl implements MoviesApiData {
       );
 
       return response.data ?? false;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<SearchEntity>> searchMovie(String query) async {
+    try {
+      var response = await moviesApiClient.getSearchResults(query);
+      return SearchMapper().convertToListSearchEntity(
+        response.data?.movies ?? [],
+      );
     } catch (e) {
       rethrow;
     }
