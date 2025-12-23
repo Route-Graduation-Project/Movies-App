@@ -5,6 +5,7 @@ import 'package:movies_app/domain/entity/add_movie_to_favorite_entity.dart';
 import 'package:movies_app/domain/entity/movie_details_entity.dart';
 import 'package:movies_app/domain/entity/movie_entity.dart';
 import 'package:movies_app/domain/entity/movies_suggestion_entity.dart';
+import 'package:movies_app/domain/entity/search_entity.dart';
 import '../repository/movies_repository.dart';
 
 @injectable
@@ -41,16 +42,23 @@ class UseCase {
     );
   }
 
-  Future<AddMovieToFavoriteEntity> addMovieToFavoriteList(String movieId,
-      String name,
-      double rating,
-      String imageURL,
-      String year,)async
-  {
-    return await _moviesRepository.addMovieToFavoriteList(movieId, name, rating, imageURL, year);
+  Future<AddMovieToFavoriteEntity> addMovieToFavoriteList(
+    String movieId,
+    String name,
+    double rating,
+    String imageURL,
+    String year,
+  ) async {
+    return await _moviesRepository.addMovieToFavoriteList(
+      movieId,
+      name,
+      rating,
+      imageURL,
+      year,
+    );
   }
 
-  Future<GetFavoriteMoviesResponse> getAllFavoriteMovies()async{
+  Future<GetFavoriteMoviesResponse> getAllFavoriteMovies() async {
     return await _moviesRepository.getAllFavoriteMovies();
   }
 
@@ -58,7 +66,11 @@ class UseCase {
     return await _moviesRepository.removeMovieFromFavoriteList(movieId);
   }
 
-  Future<bool> isMovieInFavoriteList(String movieId) async{
+  Future<bool> isMovieInFavoriteList(String movieId) async {
     return await _moviesRepository.isMovieInFavList(movieId);
+  }
+
+  Future<List<SearchEntity>> getSearchResults(String query) async {
+    return await _moviesRepository.searchMovie(query);
   }
 }
