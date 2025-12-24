@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const SearchScreen(),
     const ExploreScreen(),
-    ProfileScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -29,8 +29,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.black,
-      body: screens[currentIndex],
-
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: ClipRRect(
@@ -71,6 +69,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ).horizontalPadding(16),
       ),
+      body: screens[currentIndex],
+
+
     );
   }
 }

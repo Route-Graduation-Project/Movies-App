@@ -21,6 +21,7 @@ class MovieDetailsState {
 
   bool isLoading;
   bool isFavorite;
+  bool isFavoriteLoading;
 
   MovieDetailsState({
     this.id,
@@ -40,6 +41,7 @@ class MovieDetailsState {
     this.movieSuggestions,
     this.isLoading = false,
     this.isFavorite = false,
+    this.isFavoriteLoading = false,
   });
 
   MovieDetailsState copyWith({
@@ -60,6 +62,7 @@ class MovieDetailsState {
     List<MoviesSuggestionEntity>? movieSuggestions,
     bool loading = false,
     bool? favorite,
+    bool? isFavoriteLoading,
   }) {
     return MovieDetailsState(
       id: id ?? this.id,
@@ -82,6 +85,7 @@ class MovieDetailsState {
       movieSuggestions: movieSuggestions ?? this.movieSuggestions,
       isLoading: loading,
       isFavorite: favorite ?? isFavorite,
+      isFavoriteLoading: isFavoriteLoading ?? this.isFavoriteLoading,
     );
   }
 }
@@ -131,9 +135,9 @@ class WatchMovie extends MovieDetailsActions {
 
 sealed class MovieDetailsNavigation {}
 
+
 class NavigateToMovieDetails extends MovieDetailsNavigation {
   int? movieId;
-
   NavigateToMovieDetails(this.movieId);
 }
 
