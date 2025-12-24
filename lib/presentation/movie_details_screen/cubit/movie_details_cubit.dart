@@ -14,7 +14,10 @@ class MovieDetailsCubit
         > {
   MovieDetailsCubit() : super(MovieDetailsState());
 
+
   UseCase useCase = getIt();
+
+
   @override
   Future<void> doAction(MovieDetailsActions action) async {
     switch (action) {
@@ -47,13 +50,24 @@ class MovieDetailsCubit
   }
 
   void _removeMovieFromFav(RemoveMovieFromFavorite action) async {
-    emit(state.copyWith(loading: true));
+    emit(state.copyWith(isFavoriteLoading: true));
+    try{
+      await useCase.removeMovieFromFavoriteList(action.movieId);
+      emit(state.copyWith(favorite: false));
+    }
+    catch(e){
+      emit(state.copyWith(favorite: true));
+    }finally{
+      emit(state.copyWith(isFavoriteLoading: false));
+    }
+
 
     await useCase.removeMovieFromFavoriteList(action.movieId);
     emit(state.copyWith(favorite: false));
   }
 
   Future<void> _addMovieToFavorite(AddMovieToFavorite action) async {
+    emit(state.copyWith(isFavoriteLoading: true));
     try {
       await useCase.addMovieToFavoriteList(
         action.movieId,
@@ -62,13 +76,12 @@ class MovieDetailsCubit
         action.imageURL,
         action.year,
       );
-      emit(state.copyWith(loading: true));
-
       emit(state.copyWith(favorite: true));
     } catch (e) {
-      emit(state.copyWith(loading: true));
-
       emit(state.copyWith(favorite: false));
+    }
+    finally{
+      emit(state.copyWith(isFavoriteLoading: false));
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/app_colors.dart';
+import 'package:movies_app/core/di/di.dart';
 import 'package:movies_app/core/utils/context_extension.dart';
 import 'package:movies_app/core/utils/padding_extension.dart';
 import 'package:movies_app/core/utils/theme_extension.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late HomeCubit cubit;
+  HomeCubit cubit = getIt();
 
   @override
   void initState() {
@@ -80,17 +81,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   } else {
                     return CarouselSlider(
-                      items:
-                          state.moviesSortedByDate!
-                              .map(
-                                (movie) => PosterWidget(
-                                  movie: movie,
-                                  movieTap: (id) {
-                                    cubit.doAction(GoToDetailsScreenAction(id));
-                                  },
-                                ),
-                              )
-                              .toList(),
+                      items: state.moviesSortedByDate!
+                          .map(
+                            (movie) => PosterWidget(
+                              movie: movie,
+                              movieTap: (id) {
+                                cubit.doAction(GoToDetailsScreenAction(id));
+                              },
+                            ),
+                          )
+                          .toList(),
                       options: CarouselOptions(
                         height: context.heightSize * 0.35,
                         enableInfiniteScroll: true,
@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               const Spacer(),
-                              const Text("See More"),
+                              Text("See More", style: context.textStyle.bodyLarge!.copyWith(color: AppColors.white),),
                             ],
                           ).horizontalPadding(16),
                           Expanded(
@@ -138,15 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                               ),
-                              itemBuilder:
-                                  (_, index) => PosterWidget(
-                                    movie: state.moviesSortedByGenres![index],
-                                    movieTap: (id) {
-                                      cubit.doAction(
-                                        GoToDetailsScreenAction(id),
-                                      );
-                                    },
-                                  ),
+                              itemBuilder: (_, index) => PosterWidget(
+                                movie: state.moviesSortedByGenres![index],
+                                movieTap: (id) {
+                                  cubit.doAction(GoToDetailsScreenAction(id));
+                                },
+                              ),
                               separatorBuilder: (_, _) => 15.widthSpace,
                               itemCount: state.moviesSortedByGenres!.length,
                               scrollDirection: Axis.horizontal,
@@ -159,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
+
             ],
           ),
         ),

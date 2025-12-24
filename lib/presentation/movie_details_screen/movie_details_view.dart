@@ -69,313 +69,304 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
     return BlocProvider.value(
       value: cubit,
       child: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
-        builder:
-            (_, state) => Scaffold(
-              extendBodyBehindAppBar: true,
-              extendBody: true,
-              appBar: AppBar(
-                elevation: 0.0,
-                backgroundColor: Colors.transparent,
-                leading: IconButton(
-                  onPressed: () {
-                    cubit.doAction(GoBack());
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.white,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () async {
-                      await _addToFavoriteFunctionality(state);
-                    },
-                    icon:
-                        state.isLoading
-                            ? const CircularProgressIndicator()
-                            : Icon(
-                              Icons.bookmark,
-                              color:
-                                  state.isFavorite
-                                      ? AppColors.yellow
-                                      : AppColors.white,
+        builder: (_, state) => Scaffold(
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () {
+                cubit.doAction(GoBack());
+              },
+              icon: const Icon(Icons.arrow_back_ios, color: AppColors.white),
+            ),
+            actions: [
+              state.isFavoriteLoading || state.isLoading
+                  ? const CircularProgressIndicator().horizontalPadding(8)
+                  : IconButton(
+                      onPressed: () async {
+                        if (state.isFavorite) {
+                          cubit.doAction(
+                            RemoveMovieFromFavorite(state.id.toString()),
+                          );
+                        } else {
+                          cubit.doAction(
+                            AddMovieToFavorite(
+                              state.largeCoverImage ?? "assets/images/play_icon.png",
+                              state.title ?? '',
+                              state.rating ?? 0,
+                              state.year.toString(),
+                              state.id.toString(),
                             ),
-                  ),
-                ],
-              ),
-              body:
-                  state.isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : ListView(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
+                          );
+                        }
+
+                      },
+                      icon: Icon(
+                        Icons.bookmark,
+                        color: state.isFavorite
+                            ? AppColors.yellow
+                            : AppColors.white,
+                      ),
+                    ),
+            ],
+          ),
+          body: state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  children: [
+                    // image of movie
+                    SizedBox(
+                      width: double.infinity,
+                      child: Stack(
                         children: [
-                          // image of movie
-                          SizedBox(
-                            width: double.infinity,
-                            child: Stack(
+                          MovieCoverWidget(urlImage: state.largeCoverImage!),
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0xFF121312).withAlpha(50),
+                                    const Color(0xFF121312).withAlpha(30),
+                                    const Color(0xFF121312),
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Image.asset("assets/images/play_icon.png"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // title of movie
+                    Text(
+                      state.title!,
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    5.heightSpace,
+                    // the year of movie
+                    Text(
+                      state.year.toString(),
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white.withAlpha(100),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    // watch button
+                    FilledButton(
+                      onPressed: () {
+                        cubit.doAction(WatchMovie(state.url!));
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.red,
+                      ),
+                      child: Text(
+                        "Watch",
+                        style: context.textStyle.titleMedium!.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ).allPadding(16),
+                    // rates and like info
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: AppColors.gray,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                MovieCoverWidget(
-                                  urlImage: state.largeCoverImage!,
+                                const Icon(
+                                  Icons.favorite,
+                                  color: AppColors.yellow,
+                                  size: 28,
                                 ),
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          const Color(0xFF121312).withAlpha(50),
-                                          const Color(0xFF121312).withAlpha(30),
-                                          const Color(0xFF121312),
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
+                                Text(
+                                  state.likeCount.toString(),
+                                  style: context.textStyle.titleMedium!
+                                      .copyWith(
+                                        color: AppColors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      "assets/images/play_icon.png",
-                                    ),
-                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          // title of movie
-                          Text(
-                            state.title!,
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        20.widthSpace,
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: AppColors.gray,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          5.heightSpace,
-                          // the year of movie
-                          Text(
-                            state.year.toString(),
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white.withAlpha(100),
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          // watch button
-                          FilledButton(
-                            onPressed: () {
-                              cubit.doAction(WatchMovie(state.url!));
-                            },
-                            style: FilledButton.styleFrom(
-                              backgroundColor: AppColors.red,
-                            ),
-                            child: Text(
-                              "Watch",
-                              style: context.textStyle.titleMedium!.copyWith(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ).allPadding(16),
-                          // rates and like info
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: AppColors.gray,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const Icon(
-                                        Icons.favorite,
-                                        color: AppColors.yellow,
-                                        size: 28,
-                                      ),
-                                      Text(
-                                        state.likeCount.toString(),
-                                        style: context.textStyle.titleMedium!
-                                            .copyWith(
-                                              color: AppColors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Icon(
+                                  Icons.watch_later,
+                                  color: AppColors.yellow,
+                                  size: 28,
                                 ),
-                              ),
-                              20.widthSpace,
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: AppColors.gray,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const Icon(
-                                        Icons.watch_later,
-                                        color: AppColors.yellow,
-                                        size: 28,
+                                Text(
+                                  state.runtime.toString(),
+                                  style: context.textStyle.titleMedium!
+                                      .copyWith(
+                                        color: AppColors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        state.runtime.toString(),
-                                        style: context.textStyle.titleMedium!
-                                            .copyWith(
-                                              color: AppColors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                              ),
-                              20.widthSpace,
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: AppColors.gray,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const Icon(
-                                        Icons.star,
-                                        color: AppColors.yellow,
-                                        size: 28,
-                                      ),
-                                      Text(
-                                        state.rating.toString(),
-                                        style: context.textStyle.titleMedium!
-                                            .copyWith(
-                                              color: AppColors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        20.widthSpace,
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: AppColors.gray,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.yellow,
+                                  size: 28,
                                 ),
-                              ),
-                            ],
-                          ).allPadding(16),
-
-                          Text(
-                            "Screen Shots",
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ).horizontalPadding(16),
-                          ScreenShotWidget(
-                            urlImage: state.mediumScreenshotImage1!,
-                          ),
-                          ScreenShotWidget(
-                            urlImage: state.mediumScreenshotImage2!,
-                          ),
-                          ScreenShotWidget(
-                            urlImage: state.mediumScreenshotImage3!,
-                          ),
-                          Text(
-                            "Similar",
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ).horizontalPadding(16),
-
-                          SizedBox(
-                            // determine the height based on the count of suggested movie depend on the height of the image (30% of height screen)
-                            height:
-                                state.movieSuggestions!.length > 2
-                                    ? context.heightSize * 0.67
-                                    : context.heightSize * 0.34,
-                            child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(16),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 0.65,
-                                    crossAxisSpacing: 16,
-                                    mainAxisSpacing: 16,
-                                  ),
-                              itemCount:
-                                  state.movieSuggestions!.length > 4
-                                      ? 4
-                                      : state.movieSuggestions!.length,
-                              itemBuilder:
-                                  (context, index) => SuggestedMovieWidget(
-                                    movieSuggestion:
-                                        state.movieSuggestions![index],
-                                    movieSuggestionTap: (id) {
-                                      cubit.doAction(GoToMovieSuggestion(id));
-                                    },
-                                  ),
+                                Text(
+                                  state.rating.toString(),
+                                  style: context.textStyle.titleMedium!
+                                      .copyWith(
+                                        color: AppColors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                              ],
                             ),
                           ),
+                        ),
+                      ],
+                    ).allPadding(16),
 
-                          Text(
-                            "Summary",
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ).horizontalPadding(16),
-
-                          10.heightSpace,
-                          Text(
-                            state.descriptionFull == "" ||
-                                    state.descriptionFull == null
-                                ? "There is no summary of this movie"
-                                : state.descriptionFull!,
-                            style: context.textStyle.bodyMedium!.copyWith(
-                              color: AppColors.white,
-                            ),
-                          ).horizontalPadding(16),
-
-                          15.heightSpace,
-
-                          Text(
-                            "Cast",
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ).horizontalPadding(16),
-
-                          for (int i = 0; i < state.cast!.length; i++)
-                            CharacterWidget(
-                              urlImage: state.cast![i].urlSmallImage!,
-                              originName: state.cast![i].name!,
-                              characterName: state.cast![i].characterName!,
-                            ),
-
-                          15.heightSpace,
-
-                          Text(
-                            "Geners",
-                            style: context.textStyle.titleLarge!.copyWith(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ).horizontalPadding(16),
-
-                          GenresWidget(genres: state.genres!),
-                        ],
+                    Text(
+                      "Screen Shots",
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-            ),
+                    ).horizontalPadding(16),
+                    ScreenShotWidget(urlImage: state.mediumScreenshotImage1!),
+                    ScreenShotWidget(urlImage: state.mediumScreenshotImage2!),
+                    ScreenShotWidget(urlImage: state.mediumScreenshotImage3!),
+                    Text(
+                      "Similar",
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).horizontalPadding(16),
+
+                    SizedBox(
+                      // determine the height based on the count of suggested movie depend on the height of the image (30% of height screen)
+                      height: state.movieSuggestions!.length > 2
+                          ? context.heightSize * 0.67
+                          : context.heightSize * 0.34,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.all(16),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.65,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                            ),
+                        itemCount: state.movieSuggestions!.length > 4
+                            ? 4
+                            : state.movieSuggestions!.length,
+                        itemBuilder: (context, index) => SuggestedMovieWidget(
+                          movieSuggestion: state.movieSuggestions![index],
+                          movieSuggestionTap: (id) {
+                            cubit.doAction(GoToMovieSuggestion(id));
+                          },
+                        ),
+                      ),
+                    ),
+
+                    Text(
+                      "Summary",
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).horizontalPadding(16),
+
+                    10.heightSpace,
+                    Text(
+                      state.descriptionFull == "" ||
+                              state.descriptionFull == null
+                          ? "There is no summary of this movie"
+                          : state.descriptionFull!,
+                      style: context.textStyle.bodyMedium!.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ).horizontalPadding(16),
+
+                    15.heightSpace,
+
+                    Text(
+                      "Cast",
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).horizontalPadding(16),
+
+                    for (int i = 0; i < state.cast!.length; i++)
+                      CharacterWidget(
+                        urlImage: state.cast![i].urlSmallImage ?? "",
+                        originName: state.cast![i].name??"",
+                        characterName: state.cast![i].characterName ?? "",
+                      ),
+
+                    15.heightSpace,
+
+                    Text(
+                      "Geners",
+                      style: context.textStyle.titleLarge!.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).horizontalPadding(16),
+
+                    GenresWidget(genres: state.genres!),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -383,15 +374,16 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   Future<void> _addToFavoriteFunctionality(MovieDetailsState state) async {
     if (cubit.state.isFavorite) {
       await cubit.doAction(RemoveMovieFromFavorite(state.id.toString()));
+    } else {
+      await cubit.doAction(
+        AddMovieToFavorite(
+          state.mediumScreenshotImage1 ?? "assets/images/play_icon.png",
+          state.title ?? '',
+          state.rating ?? 0,
+          state.year.toString(),
+          state.id.toString(),
+        ),
+      );
     }
-    await cubit.doAction(
-      AddMovieToFavorite(
-        state.mediumScreenshotImage1 ?? "assets/images/play_icon.png",
-        state.title ?? '',
-        state.rating ?? 0,
-        state.year.toString(),
-        state.id.toString(),
-      ),
-    );
   }
 }

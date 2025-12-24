@@ -19,6 +19,7 @@ class PosterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      type: MaterialType.card,
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),

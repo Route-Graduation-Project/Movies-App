@@ -24,12 +24,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileCubit cubit = getIt();
-  late HomeCubit cubitHome;
+  HomeCubit cubitHome = getIt();
+
   @override
   void initState() {
     super.initState();
-    cubitHome = BlocProvider.of<HomeCubit>(context);
-
+    cubit.doAction(GetProfileData());
     cubitHome.navigation.listen((navigation) async {
       switch (navigation) {
         case NavigateToMovieDetails():
@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
       }
     });
-    cubit.doAction(GetProfileData());
+
   }
 
   @override
@@ -78,243 +78,240 @@ class _ProfileScreenState extends State<ProfileScreen> {
       value: cubit,
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-          final historyMovies =
-              (cubitHome.state.moviesSortedByDate ?? [])
-                  .where(
-                    (movie) =>
-                        cubitHome.state.clickedMovieIds.contains(movie.id),
-                  )
-                  .toList();
-          final historyMoviesSorted = [...historyMovies]
-            ..sort((a, b) => b.id.compareTo(a.id));
-
           return state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : DefaultTabController(
-                initialIndex: 0,
-                length: 2,
-                child: Scaffold(
-                  backgroundColor: AppColors.gray,
-                  body: SafeArea(
-                    child: NestedScrollView(
-                      headerSliverBuilder: (_, _) {
-                        return [
-                          SliverToBoxAdapter(
-                            child: Container(
-                              padding: const EdgeInsets.all(16),
-                              color: AppColors.gray,
-                              child: Column(
-                                spacing: 16,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        spacing: 8,
-                                        children: [
-                                          Image.asset(
-                                            "assets/images/avatar${state.avatarId}.png",
-                                            width: context.widthSize * 0.25,
-                                          ),
-                                          Text(
-                                            state.name ?? 'UnKnown',
-                                            style: context.textStyle.titleLarge!
-                                                .copyWith(
-                                                  color: AppColors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        spacing: 16,
-                                        children: [
-                                          Text(
-                                            state.wishListNumber.toString(),
-                                            style: const TextStyle(
-                                              color: AppColors.white,
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.bold,
+                  initialIndex: 0,
+                  length: 2,
+                  child: Scaffold(
+                    backgroundColor: AppColors.gray,
+                    body: SafeArea(
+                      child: NestedScrollView(
+                        headerSliverBuilder: (_, _) {
+                          return [
+                            SliverToBoxAdapter(
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                color: AppColors.gray,
+                                child: Column(
+                                  spacing: 16,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          spacing: 8,
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/avatar${state.avatarId}.png",
+                                              width: context.widthSize * 0.25,
+                                            ),
+                                            Text(
+                                              state.name ?? 'UnKnown',
+                                              style: context
+                                                  .textStyle
+                                                  .titleLarge!
+                                                  .copyWith(
+                                                    color: AppColors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          spacing: 16,
+                                          children: [
+                                            Text(
+                                              state.wishListNumber.toString(),
+                                              style: const TextStyle(
+                                                color: AppColors.white,
+                                                fontSize: 32,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Wish List",
+                                              style: context
+                                                  .textStyle
+                                                  .titleLarge!
+                                                  .copyWith(
+                                                    color: AppColors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          spacing: 16,
+                                          children: [
+                                            Text(
+                                              state.historyListNumber
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: AppColors.white,
+                                                fontSize: 32,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              "History",
+                                              style: context
+                                                  .textStyle
+                                                  .titleLarge!
+                                                  .copyWith(
+                                                    color: AppColors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      spacing: 8,
+                                      children: [
+                                        Expanded(
+                                          flex: 5,
+                                          child: FilledButton(
+                                            onPressed: () {
+                                              cubit.emitNavigation(
+                                                NavigateToEditProfile(),
+                                              );
+                                            },
+                                            child: Text(
+                                              "Edit Profile",
+                                              style: context
+                                                  .textStyle
+                                                  .titleMedium!
+                                                  .copyWith(
+                                                    color: AppColors.black,
+                                                  ),
                                             ),
                                           ),
-                                          Text(
-                                            "Wish List",
-                                            style: context.textStyle.titleLarge!
-                                                .copyWith(
-                                                  color: AppColors.white,
-                                                  fontWeight: FontWeight.bold,
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: FilledButton(
+                                            onPressed: () {
+                                              cubit.emitNavigation(
+                                                LogoutNavigation(),
+                                              );
+                                            },
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: AppColors.red,
+                                              foregroundColor: AppColors.white,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              spacing: 8,
+                                              children: [
+                                                Text(
+                                                  "Exit",
+                                                  style: context
+                                                      .textStyle
+                                                      .titleMedium!
+                                                      .copyWith(
+                                                        color: AppColors.white,
+                                                      ),
                                                 ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        spacing: 16,
-                                        children: [
-                                          Text(
-                                            historyMovies.length.toString(),
-                                            style: const TextStyle(
-                                              color: AppColors.white,
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.bold,
+                                                const Icon(
+                                                  Iconsax.logout_outline,
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            "History",
-                                            style: context.textStyle.titleLarge!
-                                                .copyWith(
-                                                  color: AppColors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    spacing: 8,
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: FilledButton(
-                                          onPressed: () {
-                                            cubit.emitNavigation(
-                                              NavigateToEditProfile(),
-                                            );
-                                          },
-                                          child: Text(
-                                            "Edit Profile",
-                                            style: context
-                                                .textStyle
-                                                .titleMedium!
-                                                .copyWith(
-                                                  color: AppColors.black,
-                                                ),
-                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 3,
-                                        child: FilledButton(
-                                          onPressed: () {
-                                            cubit.emitNavigation(
-                                              LogoutNavigation(),
-                                            );
-                                          },
-                                          style: FilledButton.styleFrom(
-                                            backgroundColor: AppColors.red,
-                                            foregroundColor: AppColors.white,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            spacing: 8,
-                                            children: [
-                                              Text(
-                                                "Exit",
-                                                style: context
-                                                    .textStyle
-                                                    .titleMedium!
-                                                    .copyWith(
-                                                      color: AppColors.white,
-                                                    ),
-                                              ),
-                                              const Icon(
-                                                Iconsax.logout_outline,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SliverPersistentHeader(
-                            floating: false,
-                            pinned: true,
-                            delegate: TabBarDelegate(
-                              TabBar(
-                                labelStyle: context.textStyle.titleMedium!
-                                    .copyWith(color: AppColors.white),
-                                unselectedLabelStyle: context
-                                    .textStyle
-                                    .titleMedium!
-                                    .copyWith(color: AppColors.white),
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                tabs: const [
-                                  Tab(
-                                    icon: Icon(
-                                      Icons.list,
-                                      size: 30,
-                                      color: AppColors.yellow,
+                            SliverPersistentHeader(
+                              floating: false,
+                              pinned: true,
+                              delegate: TabBarDelegate(
+                                TabBar(
+                                  labelStyle: context.textStyle.titleMedium!
+                                      .copyWith(color: AppColors.white),
+                                  unselectedLabelStyle: context
+                                      .textStyle
+                                      .titleMedium!
+                                      .copyWith(color: AppColors.white),
+                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  tabs: const [
+                                    Tab(
+                                      icon: Icon(
+                                        Icons.list,
+                                        size: 30,
+                                        color: AppColors.yellow,
+                                      ),
+                                      text: "Watch List",
                                     ),
-                                    text: "Watch List",
-                                  ),
-                                  Tab(
-                                    icon: Icon(
-                                      Icons.folder,
-                                      size: 30,
-                                      color: AppColors.yellow,
+                                    Tab(
+                                      icon: Icon(
+                                        Icons.folder,
+                                        size: 30,
+                                        color: AppColors.yellow,
+                                      ),
+                                      text: "History",
                                     ),
-                                    text: "History",
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ];
-                      },
-                      body: TabBarView(
-                        children: [
-                          MovieList(
-                            movies:
-                                state.movies
-                                    .map(
-                                      (e) => PosterWidget(
-                                        movieTap: (id) {
-                                          cubitHome.doAction(
-                                            GoToDetailsScreenAction(id),
-                                          );
-                                        },
-                                        movie: MovieEntity(
-                                          id: e.id,
-                                          title: e.title,
-                                          rating: e.rating,
-                                          mediumCoverImage: e.smallCoverImage,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                          ),
-                          MovieList(
-                            movies:
-                                historyMoviesSorted
-                                    .map(
-                                      (e) => PosterWidget(
-                                        movieTap: (id) {
-                                          cubitHome.emitNavigation(
-                                            NavigateToMovieDetails(id),
-                                          );
-                                        },
-                                        movie: MovieEntity(
-                                          id: e.id,
-                                          title: e.title,
-                                          rating: e.rating,
-                                          mediumCoverImage: e.mediumCoverImage,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                          ),
-                        ],
+                          ];
+                        },
+                        body: TabBarView(
+                          children: [
+                            MovieList(
+                              movies: state.movies
+                                  .map(
+                                    (e) => PosterWidget(
+                                  movieTap: (id) {
+                                    cubitHome.doAction(
+                                      GoToDetailsScreenAction(id),
+                                    );
+                                  },
+                                  movie: MovieEntity(
+                                    id: e.id,
+                                    title: e.title,
+                                    rating: e.rating,
+                                    mediumCoverImage:
+                                    e.mediumCoverImage,
+                                  ),
+                                ),
+                              )
+                                  .toList(),
+                            ),
+                            MovieList(
+                              movies: state.historyMovie!
+                                  .map(
+                                    (e) => PosterWidget(
+                                  movieTap: (id) {
+                                    cubitHome.emitNavigation(
+                                      NavigateToMovieDetails(id),
+                                    );
+                                  },
+                                  movie: MovieEntity(
+                                    id: e.id,
+                                    title: e.title,
+                                    rating: e.rating,
+                                    mediumCoverImage:
+                                    e.mediumCoverImage,
+                                  ),
+                                ),
+                              )
+                                  .toList(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
+                );
         },
       ),
     );
