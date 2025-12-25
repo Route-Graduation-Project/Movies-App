@@ -1,15 +1,20 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
 import 'package:movies_app/data/models/login_request.dart';
 import 'package:movies_app/data/models/login_responce.dart';
 import 'package:movies_app/domain/entity/register_response_entity.dart';
 import 'package:movies_app/domain/repository/api_remote_data.dart';
 import 'package:movies_app/domain/repository/auth_repository.dart';
+import 'package:movies_app/domain/repository/firebase_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@Injectable(as: AuthRepository)
 class ApiAuthRepoImpl implements AuthRepository {
   ApiRemoteData apiRemoteDataSource;
+  FirebaseDataSource firebaseDataSource;
 
-  ApiAuthRepoImpl(this.apiRemoteDataSource);
+  ApiAuthRepoImpl(this.apiRemoteDataSource, this.firebaseDataSource);
 
   @override
   Future<LoginResponse> loginWithEmailAndPassword(
@@ -74,5 +79,18 @@ class ApiAuthRepoImpl implements AuthRepository {
   Future<void> _saveToken(String token) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("token", token);
+  }
+
+  @override
+  Future<User?> firebaseSignInWithGoogle() async {
+    try {
+      var response = await firebaseDataSource.firebaseSignInWithGoogle();
+      final token = await response?.getIdToken();
+      await _saveToken(token ?? '');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
