@@ -19,17 +19,13 @@ class _SearchScreenState extends State<SearchScreen> {
   List<SearchEntity> movies = [];
   bool isLoading = false;
   String query = '';
-
   Future<void> searchMovies(String value) async {
     query = value;
-
     if (value.isEmpty) {
       setState(() => movies.clear());
       return;
     }
-
     setState(() => isLoading = true);
-
     try {
       final result = await _useCase.getSearchResults(value);
       setState(() {
@@ -41,7 +37,6 @@ class _SearchScreenState extends State<SearchScreen> {
       setState(() => isLoading = false);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,8 +45,11 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           children: [
             SearchBarWidget(
-              onChanged: searchMovies,
+              onChanged: (value) async {
+                await searchMovies(value);
+              },
             ),
+
             Expanded(
               child: isLoading
                   ? const Center(child: CircularProgressIndicator())
