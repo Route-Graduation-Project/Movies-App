@@ -24,7 +24,7 @@ class _LoginViewListener extends StatelessWidget {
       Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
     }
     if (action is LoginGoogleNavigationToHome) {
-      Navigator.pushNamed(context, Routes.homeRoute, arguments: action.user);
+      Navigator.pushNamed(context, Routes.homeRoute);
     }
   }
 
