@@ -1,9 +1,8 @@
-# 🎬 Movies App
+<img width="1920" height="1080" alt="Cover" src="https://github.com/user-attachments/assets/40f343be-e12d-4500-95c8-a1dfdbde31bc" /># 🎬 Movies App
 
 
 <p align="center">
-  Add your cover image here -->
-  <img src="[assets/images/cover.png" alt="Movies App Cove](https://github.com/user-attachments/assets/224cde06-5703-474a-86da-31f81e60f06a)" />
+  <img width="1920" height="1080" alt="Cover" src="https://github.com/user-attachments/assets/d2e85bb5-f72e-410d-9eb4-5f4234385b6e" />
 </p>
 
 <hr />
@@ -79,7 +78,7 @@ The app focuses on performance, maintainability, and a smooth user experience.
 
 
 <p align="center">
-  <img src="[screenshots/login.png](https://github.com/user-attachments/assets/de7b4980-31a4-42c3-81ae-1c98f0e1017f)" width="200" />
+  <img width="2182" height="2860" alt="Group 46" src="https://github.com/user-attachments/assets/622d708b-f97f-4357-8f97-247343d28338" />
 </p>
 
 ---
