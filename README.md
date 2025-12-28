@@ -1,5 +1,4 @@
-<img width="1920" height="1080" alt="Cover" src="https://github.com/user-attachments/assets/40f343be-e12d-4500-95c8-a1dfdbde31bc" /># 🎬 Movies App
-
+# 🎬 Movies App
 
 <p align="center">
   <img width="1920" height="1080" alt="Cover" src="https://github.com/user-attachments/assets/d2e85bb5-f72e-410d-9eb4-5f4234385b6e" />
@@ -36,11 +35,28 @@ The app focuses on performance, maintainability, and a smooth user experience.
   - View watch history
   - View favorite movies
 
-- 🎨 **UI & UX**
-  - Native splash screen
-  - Smooth navigation
-  - Clean and simple UI
-
+- 📦 **Packages Used**
+  - dio
+  - pretty_dio_logger
+  - retrofit
+  - flutter_bloc
+  - device_preview
+  - shared_preferences
+  - connectivity_plus
+  - flutter_localizations
+  - intl
+  - carousel_slider
+  - animated_toggle_switch
+  - icons_plus
+  - google_sign_in
+  - firebase_auth
+  - firebase_core
+  - cached_network_image
+  - webview_flutter
+  - injectable
+  - get_it
+  - flutter_native_splash
+    
 ---
 
 ## 🧠 Architecture & State Management
